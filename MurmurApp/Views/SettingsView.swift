@@ -10,102 +10,51 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                MurmurScreenBackground()
-
-                ScrollView {
-                    LazyVStack(spacing: 18) {
-                        header
-                        privacySection
-                        encryptionSection
-                    }
-                    .padding(20)
+            Form {
+                Section {
+                    Toggle("Privacy Mode", isOn: $viewModel.isPrivacyModeEnabled)
+                } header: {
+                    Text("Privacy")
+                } footer: {
+                    Text("Raw audio, transcripts, summaries, and action items never leave the device in plaintext.")
                 }
-            }
-            .navigationTitle("Settings")
-            .murmurInlineTitle()
-        }
-    }
 
-    private var header: some View {
-        MurmurPanel(tint: .murmurLime.opacity(0.18)) {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Settings")
-                            .font(.largeTitle.bold())
-                        Text("Controls are minimal on purpose. Murmur keeps the most important guarantees visible and explicit.")
-                            .font(.footnote)
+                Section {
+                    LabeledContent("Status") {
+                        Text(viewModel.keyStatus)
                             .foregroundStyle(.secondary)
                     }
-
-                    Spacer()
-
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [.murmurLime, .murmurOrange, .murmurViolet],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 54, height: 54)
-                        Image(systemName: "gearshape.2.fill")
-                            .font(.system(size: 28, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
+                    row(title: "Content", value: "Ciphertext only", symbol: "lock.fill")
+                    row(title: "Speech recognition", value: "On-device when supported", symbol: "waveform.badge.mic")
+                } header: {
+                    Text("Encryption & Sync")
+                } footer: {
+                    Text("Sync transmits only encrypted blobs and minimal metadata. Nothing is readable on the server.")
                 }
 
-                MurmurAccentLine([.murmurLime, .murmurCyan, .murmurOrange])
-
-                MurmurStatusPill(
-                    title: viewModel.isPrivacyModeEnabled ? "Privacy mode enabled" : "Privacy mode off",
-                    symbol: viewModel.isPrivacyModeEnabled ? "lock.fill" : "lock.open.fill",
-                    tint: viewModel.isPrivacyModeEnabled ? .murmurLime : .murmurOrange
-                )
+                Section {
+                    LabeledContent("Version", value: appVersion)
+                } header: {
+                    Text("About")
+                }
             }
+            .formStyle(.grouped)
+            .navigationTitle("Settings")
         }
     }
 
-    private var privacySection: some View {
-        MurmurPanel(tint: .murmurCyan.opacity(0.16)) {
-            VStack(alignment: .leading, spacing: 14) {
-                MurmurSectionHeader(
-                    "Privacy",
-                    eyebrow: "Data handling",
-                    subtitle: "The app is designed to keep audio, transcripts, and summaries local by default."
-                )
-
-                Toggle("Privacy mode", isOn: $viewModel.isPrivacyModeEnabled)
-                    .tint(.murmurCyan)
-
-                Text("Raw audio, transcripts, summaries, and action items never leave the device in plaintext.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
+    private func row(title: String, value: String, symbol: String) -> some View {
+        LabeledContent {
+            Text(value).foregroundStyle(.secondary)
+        } label: {
+            Label(title, systemImage: symbol)
         }
     }
 
-    private var encryptionSection: some View {
-        MurmurPanel(tint: .murmurOrange.opacity(0.16)) {
-            VStack(alignment: .leading, spacing: 14) {
-                MurmurSectionHeader(
-                    "Encryption",
-                    eyebrow: "Security",
-                    subtitle: "Sync metadata is intentionally limited and the content is stored ciphertext-only."
-                )
-
-                Text(viewModel.keyStatus)
-                    .font(.body)
-                    .foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                HStack(spacing: 10) {
-                    MurmurStatusPill(title: "Encrypted", symbol: "checkmark.shield.fill", tint: .murmurLime)
-                    MurmurStatusPill(title: "Local first", symbol: "internaldrive.fill", tint: .murmurCyan)
-                }
-            }
-        }
+    private var appVersion: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = info?["CFBundleVersion"] as? String ?? "1"
+        return "\(version) (\(build))"
     }
 }

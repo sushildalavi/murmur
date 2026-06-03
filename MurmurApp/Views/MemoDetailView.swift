@@ -9,143 +9,57 @@ struct MemoDetailView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
-    private var memo: Memo {
-        viewModel.memo
-    }
+    private var memo: Memo { viewModel.memo }
 
-    private var transcriptWordCount: Int {
+    private var wordCount: Int {
         memo.transcriptText.split { $0.isWhitespace || $0.isNewline }.count
     }
 
     var body: some View {
-        ZStack {
-            MurmurScreenBackground()
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(memo.createdAt.formatted(date: .complete, time: .shortened))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
 
-            ScrollView {
-                LazyVStack(spacing: 18) {
-                    header
-                    metadata
-                    transcriptSection
-                    audioSection
-                }
-                .padding(20)
-            }
-        }
-        .navigationTitle("Memo")
-        .murmurInlineTitle()
-    }
-
-    private var header: some View {
-        MurmurPanel(tint: .murmurViolet.opacity(0.20)) {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(memo.title)
-                            .font(.largeTitle.bold())
-                            .foregroundStyle(.primary)
-                            .fixedSize(horizontal: false, vertical: true)
-
-                        Text(memo.createdAt.formatted(date: .complete, time: .shortened))
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    Spacer()
-
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [.murmurViolet, .murmurCyan, .murmurOrange],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 54, height: 54)
-                        Image(systemName: "doc.text.magnifyingglass")
-                            .font(.system(size: 28, weight: .semibold))
-                            .foregroundStyle(.white)
+                    HStack(spacing: 8) {
+                        MurmurBadge(title: "\(memo.transcriptSegments.count) segments", symbol: "text.quote")
+                        MurmurBadge(title: "\(wordCount) words", symbol: "number")
                     }
                 }
-
-                MurmurAccentLine([.murmurViolet, .murmurCyan, .murmurOrange])
-
-                HStack(spacing: 10) {
-                    MurmurStatusPill(title: "\(memo.transcriptSegments.count) segments", symbol: "text.quote", tint: .murmurCyan)
-                    MurmurStatusPill(title: "\(transcriptWordCount) words", symbol: "number.circle.fill", tint: .murmurOrange)
-                    MurmurStatusPill(title: "Local archive", symbol: "lock.fill", tint: .murmurLime)
-                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
             }
-        }
-    }
 
-    private var metadata: some View {
-        MurmurPanel(tint: .murmurCyan.opacity(0.16)) {
-            VStack(alignment: .leading, spacing: 10) {
-                MurmurSectionHeader("Snapshot", eyebrow: "Details", subtitle: "A compact summary of the memo and its storage path.")
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Audio file", systemImage: "waveform")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                    Text(memo.audioFileURL.lastPathComponent)
-                        .font(.callout.monospaced())
-                        .textSelection(.enabled)
-                        .foregroundStyle(.primary)
-                }
-
-                Divider().overlay(Color.white.opacity(0.08))
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Updated", systemImage: "clock.arrow.circlepath")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                    Text(memo.updatedAt.formatted(date: .complete, time: .shortened))
-                        .font(.callout)
-                        .foregroundStyle(.primary)
-                }
-            }
-        }
-    }
-
-    private var transcriptSection: some View {
-        MurmurPanel(tint: .murmurOrange.opacity(0.16)) {
-            VStack(alignment: .leading, spacing: 14) {
-                MurmurSectionHeader(
-                    "Transcript",
-                    eyebrow: "Content",
-                    subtitle: memo.transcriptSegments.isEmpty ? "No transcript available for this memo." : "Each transcript segment is preserved below."
-                )
-
+            Section("Transcript") {
                 if memo.transcriptSegments.isEmpty {
                     ContentUnavailableView(
-                        "No transcript available",
+                        "No Transcript",
                         systemImage: "text.bubble",
-                        description: Text("This memo may have been saved before transcription completed.")
+                        description: Text("This memo was saved before transcription completed.")
                     )
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
                 } else {
-                    VStack(spacing: 10) {
-                        ForEach(memo.transcriptSegments) { segment in
-                            MurmurTranscriptCard(segment: segment)
-                        }
+                    ForEach(memo.transcriptSegments) { segment in
+                        MurmurTranscriptRow(segment: segment)
                     }
                 }
             }
-        }
-    }
 
-    private var audioSection: some View {
-        MurmurPanel(tint: .murmurViolet.opacity(0.16)) {
-            VStack(alignment: .leading, spacing: 12) {
-                MurmurSectionHeader("Audio path", eyebrow: "Storage")
-                Text(memo.audioFileURL.path)
-                    .font(.footnote.monospaced())
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            Section("Details") {
+                LabeledContent("Audio file") {
+                    Text(memo.audioFileURL.lastPathComponent)
+                        .font(.callout.monospaced())
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+                LabeledContent("Updated", value: memo.updatedAt.formatted(date: .abbreviated, time: .shortened))
             }
         }
+        .navigationTitle(memo.title)
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 }
