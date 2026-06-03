@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -210,7 +210,7 @@
 			packageReferences = (
 				F3D714E605F6EFA8C05681B0 /* XCLocalSwiftPackageReference "MurmurCore" */,
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 60;
 			productRefGroup = 001444262D284F2CB5040E1E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
