@@ -1,0 +1,75 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Xcode / Swift
+DerivedData/
+build/
+Build/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.swiftpm/
+.package/
+Packages/
+*.playgroundbook/
+*.playground/contents.xcplayground
+
+# Swift Package Manager artifacts
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+Packages.lock
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Go
+bin/
+*.test
+coverage.out
+*.exe
+*.out
+
+# Docker / local databases
+.docker/
+.docker-compose.override.yml
+postgres-data/
+pgdata/
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.tmp/
+tmp/
+
+# Secrets / keys / certificates
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.mobileprovision
+*.profile
+*.jks
+*.keystore
+*.secret
+secrets/
+keys/
+certs/
