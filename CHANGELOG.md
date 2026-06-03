@@ -4,7 +4,7 @@
 
 ### Foundation
 - Local privacy-safe metrics dashboard
-- README UI screenshots captured from the simulator
+- README refreshed with current UI screenshots
 
 ### Phase 0
 - Repository setup
