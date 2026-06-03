@@ -92,9 +92,13 @@ struct MemoDetailView: View {
                     }
 
                     if !insights.keywords.isEmpty {
-                        ViewThatFits(in: .horizontal) {
-                            keywordRow(insights.keywords)
-                            keywordRow(insights.keywords)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(insights.keywords.prefix(6), id: \.self) { keyword in
+                                    MurmurBadge(title: keyword, symbol: "tag")
+                                }
+                            }
+                            .padding(.vertical, 2)
                         }
                     }
                 } else {
@@ -116,14 +120,6 @@ struct MemoDetailView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-            }
-        }
-    }
-
-    private func keywordRow(_ keywords: [String]) -> some View {
-        HStack(spacing: 8) {
-            ForEach(keywords.prefix(5), id: \.self) { keyword in
-                MurmurBadge(title: keyword, symbol: "tag")
             }
         }
     }

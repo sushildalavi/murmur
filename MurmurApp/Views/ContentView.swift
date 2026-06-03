@@ -12,6 +12,19 @@ struct ContentView: View {
     }
 
     var body: some View {
+#if DEBUG
+        if ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_DETAIL"] == "1" {
+            DemoInsightsDetail()
+        } else {
+            shell
+        }
+#else
+        shell
+#endif
+    }
+
+    @ViewBuilder
+    private var shell: some View {
 #if os(macOS)
         macBody
 #else
@@ -90,6 +103,34 @@ struct ContentView: View {
         return arguments[valueIndex]
     }
 }
+
+#if DEBUG
+/// Screenshot-only route: opens a memo detail and generates its insights so the
+/// Insights section can be captured without navigating the live UI.
+private struct DemoInsightsDetail: View {
+    @State private var viewModel = MemoDetailViewModel(memo: demoMemo)
+
+    var body: some View {
+        NavigationStack {
+            MemoDetailView(viewModel: viewModel)
+        }
+        .task { await viewModel.generateInsights() }
+    }
+
+    private static var demoMemo: Memo {
+        Memo(
+            title: "Project kickoff",
+            audioFileURL: URL(fileURLWithPath: "/tmp/demo.m4a"),
+            transcriptSegments: [
+                TranscriptSegment(text: "We kicked off the release and walked through the new recording screen.", startTime: 0, endTime: 3),
+                TranscriptSegment(text: "Follow up with design on the waveform and confirm the dark mode contrast.", startTime: 3, endTime: 6),
+                TranscriptSegment(text: "Action: verify the encrypted sync stays ciphertext only before we ship.", startTime: 6, endTime: 9),
+                TranscriptSegment(text: "Need to benchmark search latency and update the metrics dashboard.", startTime: 9, endTime: 12)
+            ]
+        )
+    }
+}
+#endif
 
 enum AppTab: String, CaseIterable, Hashable {
     case record

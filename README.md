@@ -10,9 +10,12 @@ the UI is built natively in SwiftUI.
 
 ### iPhone
 
-| Record | Library | Metrics | Settings |
+| Record | Insights | Library | Metrics |
 | --- | --- | --- | --- |
-| ![Record](docs/screenshots/record.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) | ![Settings](docs/screenshots/settings.png) |
+| ![Record](docs/screenshots/record.png) | ![Insights](docs/screenshots/insights.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) |
+
+*Insights (summary, action items, topics) are generated on device — by Apple
+Intelligence when available, with a heuristic fallback otherwise.*
 
 ### Mac
 
