@@ -38,16 +38,11 @@ second speech request.
 `IntelligentSummarizer` turns a transcript into a structured `MemoInsights`
 (summary, action items, topics):
 
-- On iOS 26 / macOS 26 with Apple Intelligence available, it runs Apple's
-  on-device foundation model through `FoundationModels`, using **guided
-  generation** — a `@Generable` struct with `@Guide` field hints — so the model
-  returns typed fields directly instead of free text that needs parsing.
-- It checks `SystemLanguageModel.default.availability` and surfaces the reason
-  (device not eligible, Apple Intelligence off, model still downloading) to the UI.
-- On any other platform/version, when Apple Intelligence is off, or on any model
-  error, it falls back to the deterministic heuristic `Summarizer`. The whole
-  foundation-model path is wrapped in `#if canImport(FoundationModels)` +
-  `@available`, so the package still builds on older SDKs (CI) using the fallback.
+- It runs Apple's on-device foundation model through `FoundationModels`, using
+  **guided generation** — a `@Generable` struct with `@Guide` field hints — so
+  the model returns typed fields directly instead of free text that needs parsing.
+- The foundation-model path is wrapped in `#if canImport(FoundationModels)` +
+  `@available`, so `MurmurCore` builds against every supported SDK.
 
 This is the deliberate counterpoint to keyword/FTS retrieval: generative,
 on-device understanding rather than substring matching.
@@ -70,15 +65,13 @@ Question / query
 ```
 
 - **Embeddings:** `EmbeddingService` wraps `NLEmbedding.sentenceEmbedding`
-  (`NaturalLanguage`) — on device, no dependency, available since iOS 14 / macOS
-  11 (so it is safe to depend on unconditionally, unlike the iOS 26 model).
+  (`NaturalLanguage`) — on device, no third-party dependency.
 - **Semantic index:** `SemanticMemoIndex` caches memo vectors by id + `updatedAt`
   and ranks by cosine similarity.
 - **Hybrid search:** `HybridSearch.reciprocalRankFusion` fuses the keyword (FTS5)
   and semantic rankings without score normalization; the Library search uses it.
 - **RAG:** `MemoAnswerService` retrieves the top memos semantically, then prompts
-  the foundation model to answer grounded in them (with citations), falling back
-  to an extractive answer when Apple Intelligence is unavailable.
+  the foundation model to answer grounded in them, with citations.
 
 ## Persistence
 

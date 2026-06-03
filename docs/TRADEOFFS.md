@@ -26,10 +26,12 @@ full-file transcription when nothing streamed. This avoids a redundant,
 rate-limited second speech request — at the cost of depending on the live
 recognizer's output for the common path.
 
-## Keyword FTS, not semantic search
-Search is FTS5 keyword/prefix ranking by `bm25()`. It is fast, dependency-free,
-and predictable. Semantic (embedding) search is intentionally not claimed; it
-would only be added once measured to improve retrieval on a labeled query set.
+## Hybrid retrieval (keyword + semantic)
+Search fuses FTS5 keyword ranking (`bm25()`) with on-device semantic ranking
+(`NLEmbedding` cosine) via Reciprocal Rank Fusion, rather than committing to one.
+`NLEmbedding` is a lightweight, built-in sentence model — chosen over a heavier
+custom embedding model to stay dependency-free and on device, trading some
+ceiling on retrieval quality for zero footprint.
 
 ## What is deferred
 Server authentication / certificate pinning, app-level encryption at rest for
