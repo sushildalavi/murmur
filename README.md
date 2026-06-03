@@ -7,9 +7,19 @@ platform; the UI is built natively in SwiftUI.
 
 ## Screenshots
 
+### iPhone
+
 | Record | Library | Metrics | Settings |
 | --- | --- | --- | --- |
 | ![Record](docs/screenshots/record.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) | ![Settings](docs/screenshots/settings.png) |
+
+### Mac
+
+![macOS](docs/screenshots/macos.png)
+
+### Apple Watch
+
+<img src="docs/screenshots/watchos.png" alt="watchOS" width="240" />
 
 ## Features
 
