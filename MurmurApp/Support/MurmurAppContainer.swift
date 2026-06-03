@@ -43,7 +43,11 @@ final class MurmurAppContainer {
 
     static func live() -> MurmurAppContainer {
         let syncService = Self.liveSyncService()
+#if DEBUG
         let demoMode = ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1"
+#else
+        let demoMode = false
+#endif
         let audioRecorder: AudioRecorder
         let transcriber: Transcriber
 
@@ -51,18 +55,18 @@ final class MurmurAppContainer {
             audioRecorder = MockAudioRecorder(
                 levelSamples: [0.12, 0.28, 0.55, 0.42],
                 transcriptSamples: [
-                    TranscriptSegment(text: "Review the metrics dashboard and screenshots.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Confirm privacy-safe sync remains ciphertext-only.", startTime: 2, endTime: 4)
+                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
+                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
                 ]
             )
             transcriber = MockTranscriber(
                 liveSegments: [
-                    TranscriptSegment(text: "Review the metrics dashboard and screenshots.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Confirm privacy-safe sync remains ciphertext-only.", startTime: 2, endTime: 4)
+                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
+                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
                 ],
                 fileSegments: [
-                    TranscriptSegment(text: "Review the metrics dashboard and screenshots.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Confirm privacy-safe sync remains ciphertext-only.", startTime: 2, endTime: 4)
+                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
+                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
                 ]
             )
         } else {
@@ -93,6 +97,7 @@ final class MurmurAppContainer {
     }
 
     private func seedDemoDataIfNeeded() {
+#if DEBUG
         guard ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1" else { return }
         guard memoStore.memos.isEmpty else { return }
 
@@ -104,8 +109,8 @@ final class MurmurAppContainer {
                 createdAt: Date(timeIntervalSince1970: 1_719_820_800),
                 updatedAt: Date(timeIntervalSince1970: 1_719_820_800),
                 transcriptSegments: [
-                    TranscriptSegment(text: "Review the metrics dashboard and screenshots.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Confirm privacy-safe sync remains ciphertext-only.", startTime: 2, endTime: 4)
+                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
+                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
                 ]
             )
         )
@@ -116,9 +121,10 @@ final class MurmurAppContainer {
                 createdAt: Date(timeIntervalSince1970: 1_719_907_200),
                 updatedAt: Date(timeIntervalSince1970: 1_719_907_200),
                 transcriptSegments: [
-                    TranscriptSegment(text: "Watch build passes and local metrics are computed.", startTime: 0, endTime: 2)
+                    TranscriptSegment(text: "Watch build passes and local metrics stay up to date.", startTime: 0, endTime: 2)
                 ]
             )
         )
+#endif
     }
 }

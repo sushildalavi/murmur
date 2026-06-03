@@ -85,6 +85,9 @@ public final class SpeechTranscriber: Transcriber {
         return try await withCheckedThrowingContinuation { continuation in
             let request = SFSpeechURLRecognitionRequest(url: url)
             request.shouldReportPartialResults = false
+            if recognizer.supportsOnDeviceRecognition {
+                request.requiresOnDeviceRecognition = true
+            }
             var finished = false
             recognizer.recognitionTask(with: request) { result, error in
                 if let error {
@@ -133,6 +136,9 @@ public final class SpeechLiveTranscriptionSession: LiveTranscriptionSession {
         self.recognizer = recognizer
         request = SFSpeechAudioBufferRecognitionRequest()
         request.shouldReportPartialResults = true
+        if recognizer.supportsOnDeviceRecognition {
+            request.requiresOnDeviceRecognition = true
+        }
 
         var localContinuation: AsyncStream<TranscriptSegment>.Continuation!
         transcriptStream = AsyncStream { continuation in

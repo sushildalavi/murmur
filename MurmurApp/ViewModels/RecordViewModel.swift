@@ -89,7 +89,7 @@ final class RecordViewModel {
 
         do {
             let fileURL = try await session.stop()
-            let finalTranscript = try await transcriber.transcribeFile(at: fileURL, locale: localeProvider())
+            let finalTranscript = try await resolveFinalTranscript(fileURL: fileURL)
             let memo = Memo(
                 id: recordingID,
                 title: Self.title(for: finalTranscript),
@@ -115,6 +115,21 @@ final class RecordViewModel {
         self.recordingStartDate = nil
         elapsedSeconds = 0
         audioLevel = 0
+    }
+
+    private func resolveFinalTranscript(fileURL: URL) async throws -> [TranscriptSegment] {
+        if !liveTranscript.isEmpty {
+            return liveTranscript
+        }
+
+        do {
+            return try await transcriber.transcribeFile(at: fileURL, locale: localeProvider())
+        } catch {
+            if !liveTranscript.isEmpty {
+                return liveTranscript
+            }
+            throw error
+        }
     }
 
     private func observeLevelStream(_ session: any AudioRecordingSession) {
