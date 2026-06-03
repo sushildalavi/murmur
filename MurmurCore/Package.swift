@@ -13,7 +13,12 @@ let package = Package(
         .library(name: "MurmurCore", targets: ["MurmurCore"])
     ],
     targets: [
-        .target(name: "MurmurCore"),
+        .target(
+            name: "MurmurCore",
+            linkerSettings: [
+                .linkedLibrary("sqlite3")
+            ]
+        ),
         .testTarget(
             name: "MurmurCoreTests",
             dependencies: ["MurmurCore"]
