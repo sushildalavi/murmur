@@ -42,6 +42,7 @@ targets:
   MurmurMacAppTests:
     type: bundle.unit-test
     platform: macOS
+    deploymentTarget: "14.0"
     sources:
       - path: MurmurAppTests
     dependencies:
