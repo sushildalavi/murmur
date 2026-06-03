@@ -151,6 +151,25 @@ final class MurmurCoreTests: XCTestCase {
         try await client.delete(memoID: memoID)
     }
 
+    func testHTTPSyncClientSendsBearerToken() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let session = URLSession(configuration: configuration)
+        let client = HTTPSyncClient(baseURL: URL(string: "https://example.com")!, session: session, token: "abc123")
+
+        let box = AuthHeaderBox()
+        MockURLProtocol.requestHandler = { request in
+            box.value = request.value(forHTTPHeaderField: "Authorization")
+            let response = HTTPURLResponse(url: request.url!, statusCode: 201, httpVersion: nil, headerFields: nil)!
+            return (response, Data())
+        }
+
+        try await client.push(
+            SyncBlob(memoID: UUID(), ciphertext: Data("x".utf8), createdAt: Date(), updatedAt: Date())
+        )
+        XCTAssertEqual(box.value, "Bearer abc123")
+    }
+
     func testMemoSyncServiceEncryptsAndRestoresMemo() async throws {
         let client = InMemorySyncClient()
         let store = InMemorySecretStore()
@@ -210,6 +229,10 @@ final class MurmurCoreTests: XCTestCase {
         XCTAssertEqual(metrics.memoDaysActive, 2)
         XCTAssertEqual(metrics.memosPerActiveDay, 1)
     }
+}
+
+final class AuthHeaderBox: @unchecked Sendable {
+    var value: String?
 }
 
 final class MockURLProtocol: URLProtocol {

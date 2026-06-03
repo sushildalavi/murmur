@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/subtle"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
@@ -163,11 +164,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mux := newServer(store)
+	token := strings.TrimSpace(os.Getenv("MURMUR_SYNC_TOKEN"))
+	handler := newServer(store, token)
 
 	server := &http.Server{
 		Addr:    ":8080",
-		Handler: mux,
+		Handler: handler,
 	}
 
 	log.Fatal(server.ListenAndServe())
@@ -181,7 +183,9 @@ func newStoreFromEnv() (blobStore, error) {
 	return newPostgresStore(databaseURL)
 }
 
-func newServer(store blobStore) http.Handler {
+// newServer builds the HTTP handler. When token is non-empty, every route
+// except /healthz requires an "Authorization: Bearer <token>" header.
+func newServer(store blobStore, token string) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
@@ -284,7 +288,23 @@ func newServer(store blobStore) http.Handler {
 		}
 	})
 
-	return mux
+	return withAuth(mux, token)
+}
+
+// withAuth enforces a bearer token on all routes except /healthz. A constant-time
+// comparison avoids leaking the token through timing. When token is empty, auth
+// is disabled (local development).
+func withAuth(next http.Handler, token string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if token != "" && r.URL.Path != "/healthz" {
+			provided := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
+			if subtle.ConstantTimeCompare([]byte(provided), []byte(token)) != 1 {
+				writeError(w, http.StatusUnauthorized, errors.New("unauthorized"))
+				return
+			}
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func writeJSON(w http.ResponseWriter, status int, payload any) {

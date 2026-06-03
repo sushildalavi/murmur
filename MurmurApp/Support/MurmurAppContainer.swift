@@ -86,7 +86,8 @@ final class MurmurAppContainer {
             return nil
         }
 
-        let client = HTTPSyncClient(baseURL: baseURL)
+        let token = ProcessInfo.processInfo.environment["MURMUR_SYNC_TOKEN"]
+        let client = HTTPSyncClient(baseURL: baseURL, token: token)
         return MemoSyncService(client: client, secretStore: KeychainStore())
     }
 

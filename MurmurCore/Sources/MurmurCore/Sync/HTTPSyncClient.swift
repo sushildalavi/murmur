@@ -9,10 +9,20 @@ public struct HTTPSyncClient: SyncClient {
 
     private let baseURL: URL
     private let session: URLSession
+    private let token: String?
 
-    public init(baseURL: URL, session: URLSession = .shared) {
+    public init(baseURL: URL, session: URLSession = .shared, token: String? = nil) {
         self.baseURL = baseURL
         self.session = session
+        self.token = token
+    }
+
+    /// Adds the bearer token header when a token is configured.
+    private func authorized(_ request: URLRequest) -> URLRequest {
+        guard let token, !token.isEmpty else { return request }
+        var request = request
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
     }
 
     public func fetchChanges(since date: Date?) async throws -> [SyncBlob] {
@@ -24,7 +34,7 @@ public struct HTTPSyncClient: SyncClient {
             throw ClientError.invalidURL
         }
 
-        let (data, response) = try await session.data(from: url)
+        let (data, response) = try await session.data(for: authorized(URLRequest(url: url)))
         try validate(response: response)
 
         struct Response: Codable {
@@ -41,7 +51,7 @@ public struct HTTPSyncClient: SyncClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONEncoder.murMurCanonical.encode(blob)
 
-        let (_, response) = try await session.data(for: request)
+        let (_, response) = try await session.data(for: authorized(request))
         try validate(response: response)
     }
 
@@ -50,7 +60,7 @@ public struct HTTPSyncClient: SyncClient {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
 
-        let (_, response) = try await session.data(for: request)
+        let (_, response) = try await session.data(for: authorized(request))
         try validate(response: response, expected: Self.defaultExpectedSuccessStatuses.union([Self.noContentStatus]))
     }
 
