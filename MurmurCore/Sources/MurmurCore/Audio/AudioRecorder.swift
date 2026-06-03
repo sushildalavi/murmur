@@ -182,7 +182,7 @@ public final class LiveAudioRecordingSession: AudioRecordingSession {
     private func configureAudioSessionIfNeeded() throws {
         #if os(iOS)
         let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .allowBluetoothHFP])
+        try audioSession.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .allowBluetooth])
         try audioSession.setActive(true)
         #endif
     }
