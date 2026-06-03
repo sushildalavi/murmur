@@ -11,31 +11,34 @@ final class MurmurWatchAppContainer {
 
     static func live() -> MurmurWatchAppContainer {
 #if DEBUG
-        let demoMode = ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1"
-#else
-        let demoMode = false
-#endif
-        let recorder: AudioRecorder
-        let transcriber: Transcriber
-
-        if demoMode {
-            recorder = MockAudioRecorder(levelSamples: [0.2, 0.4, 0.6, 0.45], transcriptSamples: Self.demoTranscript)
-            transcriber = MockTranscriber(liveSegments: Self.demoTranscript, fileSegments: Self.demoTranscript)
-        } else {
-            recorder = LiveAudioRecorder()
-            transcriber = SpeechTranscriber()
+        if ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1" {
+            return MurmurWatchAppContainer(recordViewModel: makeViewModel(
+                recorder: MockAudioRecorder(levelSamples: [0.2, 0.4, 0.6, 0.45], transcriptSamples: demoTranscript),
+                transcriber: MockTranscriber(liveSegments: demoTranscript, fileSegments: demoTranscript),
+                memoStore: MemoStore()
+            ))
         }
+#endif
+        return MurmurWatchAppContainer(recordViewModel: makeViewModel(
+            recorder: LiveAudioRecorder(),
+            transcriber: SpeechTranscriber(),
+            memoStore: .shared
+        ))
+    }
 
-        return MurmurWatchAppContainer(
-            recordViewModel: WatchRecordViewModel(
-                recorder: recorder,
-                transcriber: transcriber,
-                memoStore: demoMode ? MemoStore() : .shared,
-                recordingDirectoryProvider: WatchRecordViewModel.defaultRecordingDirectory,
-                uuidProvider: UUID.init,
-                dateProvider: Date.init,
-                localeProvider: { Locale.current }
-            )
+    private static func makeViewModel(
+        recorder: AudioRecorder,
+        transcriber: Transcriber,
+        memoStore: MemoStore
+    ) -> WatchRecordViewModel {
+        WatchRecordViewModel(
+            recorder: recorder,
+            transcriber: transcriber,
+            memoStore: memoStore,
+            recordingDirectoryProvider: WatchRecordViewModel.defaultRecordingDirectory,
+            uuidProvider: UUID.init,
+            dateProvider: Date.init,
+            localeProvider: { Locale.current }
         )
     }
 
