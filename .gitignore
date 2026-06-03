@@ -6,6 +6,7 @@ Icon?
 ._*
 
 # Xcode / Swift
+**/.build/
 DerivedData/
 build/
 Build/
@@ -29,6 +30,8 @@ Packages.lock
 
 # Go
 bin/
+murmurd
+server/murmurd
 *.test
 coverage.out
 *.exe

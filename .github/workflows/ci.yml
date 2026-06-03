@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  swift-package:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test MurmurCore
+        working-directory: MurmurCore
+        run: swift test
+
+  xcode-build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build iOS app
+        run: xcodebuild -project Murmur.xcodeproj -scheme MurmurApp -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
+      - name: Build macOS app
+        run: xcodebuild -project Murmur.xcodeproj -scheme MurmurMacApp CODE_SIGNING_ALLOWED=NO build
+
+  server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+      - name: Test server
+        working-directory: server
+        run: go test ./...
+      - name: Build server
+        working-directory: server
+        run: go build ./cmd/murmurd

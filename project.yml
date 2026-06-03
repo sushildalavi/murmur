@@ -1,0 +1,51 @@
+name: Murmur
+options:
+  bundleIdPrefix: com.sushildalavi
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+packages:
+  MurmurCore:
+    path: MurmurCore
+targets:
+  MurmurApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: MurmurApp
+    dependencies:
+      - package: MurmurCore
+    settings:
+      base:
+        INFOPLIST_FILE: MurmurApp/Resources/Info.plist
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGN_ENTITLEMENTS: MurmurApp/Resources/Murmur.entitlements
+  MurmurMacApp:
+    type: application
+    platform: macOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: MurmurApp
+    dependencies:
+      - package: MurmurCore
+    settings:
+      base:
+        INFOPLIST_FILE: MurmurApp/Resources/Info.plist
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+schemes:
+  MurmurApp:
+    build:
+      targets:
+        MurmurApp: all
+    test:
+      targets: []
+  MurmurMacApp:
+    build:
+      targets:
+        MurmurMacApp: all
