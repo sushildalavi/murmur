@@ -19,8 +19,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build iOS app
         run: xcodebuild -project Murmur.xcodeproj -scheme MurmurApp -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
-      - name: Build macOS app
-        run: xcodebuild -project Murmur.xcodeproj -scheme MurmurMacApp CODE_SIGNING_ALLOWED=NO build
+      - name: Test macOS app
+        run: xcodebuild -project Murmur.xcodeproj -scheme MurmurMacApp -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO test
 
   server:
     runs-on: ubuntu-latest

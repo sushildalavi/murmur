@@ -20,6 +20,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Murmur needs microphone access to record private voice memos locally.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Murmur needs speech recognition to transcribe voice memos locally on device.</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>

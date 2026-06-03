@@ -1,8 +1,12 @@
 import Observation
+import MurmurCore
 
 @MainActor
 @Observable
 final class MemoDetailViewModel {
-    var title = ""
-    init() {}
+    var memo: Memo
+
+    init(memo: Memo) {
+        self.memo = memo
+    }
 }

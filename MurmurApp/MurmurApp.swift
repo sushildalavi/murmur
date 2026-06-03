@@ -5,7 +5,7 @@ import SwiftUI
 struct MurmurApp: App {
     var body: some Scene {
         WindowGroup {
-            LibraryView()
+            ContentView()
         }
     }
 }
@@ -14,7 +14,7 @@ struct MurmurApp: App {
 struct MurmurMacApp: App {
     var body: some Scene {
         WindowGroup {
-            LibraryView()
+            ContentView()
         }
     }
 }

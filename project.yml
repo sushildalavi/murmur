@@ -39,14 +39,23 @@ targets:
         INFOPLIST_FILE: MurmurApp/Resources/Info.plist
         CODE_SIGNING_ALLOWED: NO
         CODE_SIGNING_REQUIRED: NO
+  MurmurMacAppTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MurmurAppTests
+    dependencies:
+      - target: MurmurMacApp
+      - package: MurmurCore
 schemes:
   MurmurApp:
     build:
       targets:
         MurmurApp: all
-    test:
-      targets: []
   MurmurMacApp:
     build:
       targets:
         MurmurMacApp: all
+    test:
+      targets:
+        - MurmurMacAppTests
