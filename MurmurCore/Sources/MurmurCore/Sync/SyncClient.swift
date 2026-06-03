@@ -17,6 +17,13 @@ public struct SyncBlob: Codable, Equatable, Hashable, Sendable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
+
+    private enum CodingKeys: String, CodingKey {
+        case memoID = "memo_id"
+        case ciphertext
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+    }
 }
 
 public protocol SyncClient: Sendable {
