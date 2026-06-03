@@ -1,55 +1,83 @@
 # Murmur
 
-A privacy-first cross-device voice intelligence system for iPhone, Mac, Apple Watch, and encrypted sync.
+Murmur is a privacy-first voice memo app for Apple platforms with local transcription, local summaries, encrypted sync, and a metrics dashboard that shows the final state of a memo library.
 
-## Overview
-Murmur records voice memos, transcribes speech locally, generates summaries and action items locally when available, stores encrypted searchable memos, supports Apple Watch/App Intents, and later syncs ciphertext-only memo blobs through a Go/PostgreSQL backend.
+## What It Does
 
-## Features
-- Local voice memo capture
-- On-device speech transcription
-- Local summaries and action items when available
-- Encrypted searchable memo storage
-- Privacy-safe local usage metrics
-- Apple Watch support and App Intents integration
-- Ciphertext-only sync for future backend infrastructure
+- Records voice memos on iPhone, Mac, and Apple Watch.
+- Transcribes speech locally when the device supports it.
+- Builds summaries, action items, and search indexes on device.
+- Stores memo content locally and syncs ciphertext-only blobs.
+- Surfaces library, search, and usage metrics in a single workflow.
 
-## Screenshots
-| Record | Library | Metrics |
-| --- | --- | --- |
-| ![Record screen](docs/screenshots/record.png) | ![Library screen](docs/screenshots/library.png) | ![Metrics screen](docs/screenshots/metrics.png) |
+## Product Design
+
+- Dark, high-contrast interface with layered depth and restrained accent colors.
+- Large recording states with explicit status, progress, and transcript feedback.
+- Card-based library, detail, search, and metrics screens.
+- Settings that clearly communicate privacy and encryption behavior.
+- Watch UI optimized for quick capture and glanceable feedback.
+
+## Final Metrics
+
+The Metrics tab presents the final operational snapshot for the local memo library:
+
+- Total memos
+- Total transcript segments
+- Total words
+- Active days
+- Average words per memo
+- Average segments per memo
+- Average words per segment
+- Memos per active day
+
+These values are calculated locally from the current memo store and refresh in-app without network access.
 
 ## Architecture
-- Client apps run on Apple platforms and keep plaintext processing local.
-- Memo content is encrypted on device before any sync.
-- A future Go/PostgreSQL backend stores only ciphertext blobs and minimal metadata required for transport.
 
-## Tech Stack
-Swift 6, SwiftUI, SwiftData, SpeechAnalyzer, Foundation Models, CryptoKit, App Intents, watchOS, Go, PostgreSQL, Docker.
-
-## Build Phases
-- Phase 0 — repository setup and project skeleton.
-- Phase 1 — core iPhone app foundation.
-- Phase 2 — local transcription and memo storage.
-- Phase 3 — Apple Watch and App Intents.
-- Phase 4 — encrypted sync backend.
-
-## Current Status
-Feature-complete foundation — iPhone, Mac, Watch, App Intents, local encryption, ciphertext-only sync, and local metrics are implemented and validated.
+- `MurmurCore` contains the shared model, transcription, summarization, crypto, search, sync, and metrics logic.
+- `MurmurApp` and `MurmurMacApp` provide the main SwiftUI experience.
+- `MurmurWatchApp` provides the watch capture flow.
+- `server/` contains the Go sync service that stores ciphertext blobs and minimal metadata.
 
 ## Privacy Model
-Raw audio, transcripts, summaries, and action items never leave the device in plaintext.
+
+- Raw audio, transcripts, summaries, and action items remain on device in plaintext.
+- Sync traffic is encrypted before leaving the device.
+- Speech recognition prefers on-device processing when supported.
 
 ## Running Locally
-Build the app with Xcode or `xcodebuild`, and run the Go server from `server/cmd/murmurd`.
 
-## Testing
-Validated with `swift test` in `MurmurCore`, iOS and macOS `xcodebuild` runs, and `go test ./...` plus `go build ./cmd/murmurd` in `server`.
+- Open `Murmur.xcodeproj` in Xcode and run the iPhone, Mac, or Watch scheme.
+- Or build from the command line with `xcodebuild`.
+- Run the sync server from `server/cmd/murmurd` if you want encrypted sync.
 
-## Roadmap
-- Polish UX, error handling, and settings.
-- Harden sync conflict handling and operational logging.
-- Add release packaging, signing, and distribution prep.
+## Validation
+
+- `swift test` for `MurmurCore`
+- Xcode app builds for `MurmurMacApp` and `MurmurWatchApp`
+- `go test ./...` and `go build ./cmd/murmurd` in `server`
+
+## Screenshots
+
+### iOS
+
+| Record | Library | Metrics |
+| --- | --- | --- |
+| ![iOS record screen](docs/screenshots/record.png) | ![iOS library screen](docs/screenshots/library.png) | ![iOS metrics screen](docs/screenshots/metrics.png) |
+
+### macOS
+
+| Desktop shell |
+| --- |
+| ![macOS desktop shell](docs/screenshots/macos.png) |
+
+### watchOS
+
+| Capture flow |
+| --- |
+| ![watchOS capture flow](docs/screenshots/watchos.png) |
 
 ## License
+
 MIT License. See `LICENSE`.
