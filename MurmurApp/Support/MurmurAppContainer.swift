@@ -52,36 +52,23 @@ final class MurmurAppContainer {
         let transcriber: Transcriber
 
         if demoMode {
-            audioRecorder = MockAudioRecorder(
-                levelSamples: [0.12, 0.28, 0.55, 0.42],
-                transcriptSamples: [
-                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
-                ]
-            )
-            transcriber = MockTranscriber(
-                liveSegments: [
-                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
-                ],
-                fileSegments: [
-                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
-                ]
-            )
+            audioRecorder = MockAudioRecorder(levelSamples: [0.18, 0.34, 0.62, 0.45], transcriptSamples: Self.demoLiveTranscript)
+            transcriber = MockTranscriber(liveSegments: Self.demoLiveTranscript, fileSegments: Self.demoLiveTranscript)
         } else {
             audioRecorder = LiveAudioRecorder()
             transcriber = SpeechTranscriber()
         }
 
-        let container = MurmurAppContainer(
-            memoStore: .shared,
+        // In demo mode use an in-memory store seeded with one coherent dataset so
+        // every screen shows consistent content and captures are deterministic.
+        let memoStore: MemoStore = demoMode ? MemoStore(memos: Self.demoMemos) : .shared
+
+        return MurmurAppContainer(
+            memoStore: memoStore,
             audioRecorder: audioRecorder,
             transcriber: transcriber,
             memoSyncService: syncService
         )
-        container.seedDemoDataIfNeeded()
-        return container
     }
 
     private static func liveSyncService() -> MemoSyncService? {
@@ -96,35 +83,47 @@ final class MurmurAppContainer {
         return MemoSyncService(client: client, secretStore: KeychainStore())
     }
 
-    private func seedDemoDataIfNeeded() {
 #if DEBUG
-        guard ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1" else { return }
-        guard memoStore.memos.isEmpty else { return }
+    // One coherent demo dataset, shared by every screen so screenshots and the
+    // in-app demo stay consistent. Dates are relative to now so they read as recent.
+    static let demoLiveTranscript = [
+        TranscriptSegment(text: "We kicked off the release and walked through the new recording screen.", startTime: 0, endTime: 3),
+        TranscriptSegment(text: "Follow up with design on the waveform and confirm the dark mode contrast.", startTime: 3, endTime: 6),
+        TranscriptSegment(text: "Action: verify the encrypted sync stays ciphertext only before we ship.", startTime: 6, endTime: 9),
+        TranscriptSegment(text: "Need to benchmark search latency and update the metrics dashboard.", startTime: 9, endTime: 12)
+    ]
 
-        let baseURL = URL(fileURLWithPath: "/tmp/murmur-demo.m4a")
-        memoStore.upsert(
+    static var demoMemos: [Memo] {
+        let now = Date()
+        let hour: TimeInterval = 3_600
+        let day: TimeInterval = 86_400
+        return [
             Memo(
                 title: "Project kickoff",
-                audioFileURL: baseURL,
-                createdAt: Date(timeIntervalSince1970: 1_719_820_800),
-                updatedAt: Date(timeIntervalSince1970: 1_719_820_800),
-                transcriptSegments: [
-                    TranscriptSegment(text: "Review the release checklist and confirm the dashboard is ready.", startTime: 0, endTime: 2),
-                    TranscriptSegment(text: "Verify sync stays encrypted end to end before shipping.", startTime: 2, endTime: 4)
-                ]
-            )
-        )
-        memoStore.upsert(
+                audioFileURL: URL(fileURLWithPath: "/tmp/murmur-demo-1.m4a"),
+                createdAt: now - 2 * hour,
+                updatedAt: now - 2 * hour,
+                transcriptSegments: demoLiveTranscript
+            ),
             Memo(
                 title: "Sync follow-up",
-                audioFileURL: baseURL,
-                createdAt: Date(timeIntervalSince1970: 1_719_907_200),
-                updatedAt: Date(timeIntervalSince1970: 1_719_907_200),
+                audioFileURL: URL(fileURLWithPath: "/tmp/murmur-demo-2.m4a"),
+                createdAt: now - day,
+                updatedAt: now - day,
                 transcriptSegments: [
-                    TranscriptSegment(text: "Watch build passes and local metrics stay up to date.", startTime: 0, endTime: 2)
+                    TranscriptSegment(text: "Verify the encrypted sync stays ciphertext only before we ship.", startTime: 0, endTime: 3)
+                ]
+            ),
+            Memo(
+                title: "Weekly metrics review",
+                audioFileURL: URL(fileURLWithPath: "/tmp/murmur-demo-3.m4a"),
+                createdAt: now - 3 * day,
+                updatedAt: now - 3 * day,
+                transcriptSegments: [
+                    TranscriptSegment(text: "Review this week's usage numbers and share the metrics dashboard with the team.", startTime: 0, endTime: 4)
                 ]
             )
-        )
-#endif
+        ]
     }
+#endif
 }

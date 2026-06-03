@@ -75,7 +75,16 @@ struct ContentView: View {
 #if DEBUG
         guard !didRunDemoAutomation else { return }
         didRunDemoAutomation = true
-        guard ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_AUTOSTART"] == "1" else { return }
+        let environment = ProcessInfo.processInfo.environment
+
+        // Capture a clean, active recording state (red stop button, live transcript).
+        if environment["MURMUR_UI_DEMO_RECORDING"] == "1" {
+            selectedTab = .record
+            await container.recordViewModel.startRecording()
+            return
+        }
+
+        guard environment["MURMUR_UI_DEMO_AUTOSTART"] == "1" else { return }
         selectedTab = .record
         await container.recordViewModel.startRecording()
         try? await Task.sleep(nanoseconds: 1_500_000_000)
@@ -108,26 +117,14 @@ struct ContentView: View {
 /// Screenshot-only route: opens a memo detail and generates its insights so the
 /// Insights section can be captured without navigating the live UI.
 private struct DemoInsightsDetail: View {
-    @State private var viewModel = MemoDetailViewModel(memo: demoMemo)
+    // Reuse the first shared demo memo so the Insights detail matches the Library.
+    @State private var viewModel = MemoDetailViewModel(memo: MurmurAppContainer.demoMemos[0])
 
     var body: some View {
         NavigationStack {
             MemoDetailView(viewModel: viewModel)
         }
         .task { await viewModel.generateInsights() }
-    }
-
-    private static var demoMemo: Memo {
-        Memo(
-            title: "Project kickoff",
-            audioFileURL: URL(fileURLWithPath: "/tmp/demo.m4a"),
-            transcriptSegments: [
-                TranscriptSegment(text: "We kicked off the release and walked through the new recording screen.", startTime: 0, endTime: 3),
-                TranscriptSegment(text: "Follow up with design on the waveform and confirm the dark mode contrast.", startTime: 3, endTime: 6),
-                TranscriptSegment(text: "Action: verify the encrypted sync stays ciphertext only before we ship.", startTime: 6, endTime: 9),
-                TranscriptSegment(text: "Need to benchmark search latency and update the metrics dashboard.", startTime: 9, endTime: 12)
-            ]
-        )
     }
 }
 #endif
