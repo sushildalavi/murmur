@@ -165,8 +165,7 @@ final class WatchRecordViewModel {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let timestamp = formatter.string(from: date).replacingOccurrences(of: ":", with: "-")
         return directory
-            .appendingPathComponent("murmur-")
-            .appendingPathComponent("\(timestamp)-\(id.uuidString)")
+            .appendingPathComponent("murmur-\(timestamp)-\(id.uuidString)")
             .appendingPathExtension("m4a")
     }
 
