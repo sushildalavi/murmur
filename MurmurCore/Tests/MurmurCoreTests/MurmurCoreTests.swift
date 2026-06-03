@@ -59,6 +59,20 @@ final class MurmurCoreTests: XCTestCase {
         XCTAssertEqual(index.search("follow up").first?.id, memoOne.id)
     }
 
+    func testIntelligentSummarizerReturnsEmptyForEmptyTranscript() async {
+        let insights = await IntelligentSummarizer().summarize([])
+        XCTAssertTrue(insights.isEmpty)
+    }
+
+    func testIntelligentSummarizerStatusResolvesOnAnyHost() {
+        // Must return a definite status without crashing, whether or not the host
+        // supports Apple Intelligence.
+        switch IntelligentSummarizer().status() {
+        case .available, .unavailable:
+            break
+        }
+    }
+
     func testConflictResolverPrefersNewestMemo() {
         let resolver = ConflictResolver()
         let baseURL = URL(fileURLWithPath: "/tmp/memo.m4a")
