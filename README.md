@@ -19,9 +19,13 @@ powers every platform; the UI is built natively in SwiftUI.
 Apple's foundation model; Insights (summary, action items, topics) are generated
 on device too. Both degrade gracefully when Apple Intelligence is unavailable.*
 
-### Mac
+### Mac — Ask, answered by Apple Intelligence
 
-![macOS](docs/screenshots/macos.png)
+![macOS Ask with Apple Intelligence](docs/screenshots/macos.png)
+
+*Real output from Apple's on-device foundation model on an Apple
+Intelligence–enabled Mac: the question is answered from the user's own memos
+(retrieved semantically) and cited — nothing leaves the device.*
 
 ### Apple Watch
 

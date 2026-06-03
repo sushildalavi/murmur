@@ -48,10 +48,12 @@ public struct MemoAnswerService: Sendable {
         return Answer(text: Self.extractiveAnswer(for: sources), sources: sources, usedAppleIntelligence: false)
     }
 
-    /// Semantic-first retrieval with a keyword fallback.
+    /// Semantic-first retrieval with a keyword fallback. For RAG we keep the
+    /// top-k most relevant memos (no hard threshold) so the model has enough
+    /// grounding context to synthesize a complete answer.
     private func retrieve(_ query: String, over memos: [Memo], limit: Int) -> [Memo] {
         if semanticIndex.isAvailable {
-            let semantic = semanticIndex.rankedMemos(query, in: memos, limit: limit, threshold: 0.15)
+            let semantic = semanticIndex.rankedMemos(query, in: memos, limit: limit)
             if !semantic.isEmpty { return semantic }
         }
         var index = MemoSearchIndex()
@@ -82,12 +84,13 @@ extension MemoAnswerService {
         let session = LanguageModelSession(
             instructions: """
             You answer questions using only the user's voice memos provided as context. \
-            Be concise. If the memos do not contain the answer, say so plainly. \
-            Never invent details that are not in the context.
+            Reply with one to three complete, specific sentences that summarize the \
+            relevant points from the memos. If the memos do not contain the answer, \
+            say so plainly. Never invent details that are not in the context.
             """
         )
         let response = try await session.respond(
-            to: "Context memos:\n\(context)\n\nQuestion: \(question)\n\nAnswer:"
+            to: "Context memos:\n\(context)\n\nQuestion: \(question)"
         )
         return response.content
     }
