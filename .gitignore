@@ -30,7 +30,7 @@ Packages.lock
 
 # Go
 bin/
-murmurd
+/murmurd
 server/murmurd
 *.test
 coverage.out

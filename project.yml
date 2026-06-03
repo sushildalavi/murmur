@@ -2,6 +2,7 @@ name: Murmur
 options:
   bundleIdPrefix: com.sushildalavi
   createIntermediateGroups: true
+  projectFormat: 60
 settings:
   base:
     SWIFT_VERSION: 6.0
@@ -14,7 +15,7 @@ targets:
   MurmurApp:
     type: application
     platform: iOS
-    deploymentTarget: "18.0"
+    deploymentTarget: "17.0"
     sources:
       - path: MurmurApp
     dependencies:
@@ -28,7 +29,7 @@ targets:
   MurmurMacApp:
     type: application
     platform: macOS
-    deploymentTarget: "15.0"
+    deploymentTarget: "14.0"
     sources:
       - path: MurmurApp
     dependencies:

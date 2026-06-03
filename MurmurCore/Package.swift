@@ -1,13 +1,13 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.10
 
 import PackageDescription
 
 let package = Package(
     name: "MurmurCore",
     platforms: [
-        .iOS(.v18),
-        .macOS(.v15),
-        .watchOS(.v11)
+        .iOS(.v17),
+        .macOS(.v14),
+        .watchOS(.v10)
     ],
     products: [
         .library(name: "MurmurCore", targets: ["MurmurCore"])
