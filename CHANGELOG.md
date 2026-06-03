@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Persistence & search
+- Memos now persist in a local SQLite database (system `sqlite3`, WAL) and
+  survive relaunch, behind a `MemoPersistence` protocol.
+- Full-text search via an FTS5 index ranked by `bm25()`, with injection-safe
+  prefix matching; Search and the library now use it.
+- Audio playback in the memo detail view; swipe-to-delete in the library.
+- Local index is excluded from iCloud backup.
+
+### Rigor
+- Test-enforced privacy invariant: the build fails if a sync payload is not
+  ciphertext.
+- `MurmurBench` host benchmark for store insert/search latency.
+- Added ARCHITECTURE, PRIVACY, BENCHMARKS, and TRADEOFFS docs.
+
 ### UI
 - Rebuilt the iOS, macOS, and watchOS interfaces around the Human Interface
   Guidelines: native `List`/`Form` containers, system materials, a single accent

@@ -29,8 +29,12 @@ platform; the UI is built natively in SwiftUI.
 - **Live transcript while recording.** Transcript segments stream in through an
   `AsyncStream` as you speak, and the saved memo reuses that transcript instead
   of re-running recognition on the file.
-- **Local search.** A tokenized search index ranks memos by query relevance
-  across titles and transcripts.
+- **Durable on-device storage.** Memos persist in a local SQLite database (system
+  `sqlite3`, WAL journaling, no third-party deps) and survive relaunch.
+- **Full-text search.** An FTS5 index ranks memos by `bm25()` across titles and
+  transcripts, with injection-safe prefix matching for as-you-type queries.
+- **Playback, browse, delete.** Recorded audio plays back in the detail view;
+  the library supports swipe-to-delete.
 - **Library metrics.** Aggregate statistics (counts, words, segments, active
   days, and per-memo averages) are computed locally from the memo store.
 - **Encrypted sync.** Memos are encrypted with `CryptoService` (keys held in the
@@ -63,15 +67,32 @@ A few deliberate choices:
 - **Streaming over polling.** Audio levels and transcript segments are delivered
   as `AsyncStream`s, keeping the recording pipeline reactive and back-pressure
   friendly.
+- **Persistence behind a protocol.** `MemoStore` is the observable cache;
+  durability lives behind `MemoPersistence`, implemented by a tested SQLite +
+  FTS5 store and swapped for an in-memory fake in unit tests.
 - **One accent, native materials.** The interface follows the Human Interface
   Guidelines: system grouped backgrounds, `Form`/`List` containers, SF Symbols,
   Dynamic Type, full light/dark support, and a single accent color.
 
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full breakdown,
+[`docs/PRIVACY.md`](docs/PRIVACY.md) for the privacy model, and
+[`docs/TRADEOFFS.md`](docs/TRADEOFFS.md) for the design trade-offs.
+
 ## Privacy model
 
-- Raw audio, transcripts, summaries, and action items stay on device in plaintext.
-- Speech recognition prefers on-device processing when the device and locale support it.
-- Sync transmits only ciphertext and minimal metadata. The server cannot read memo content.
+Raw audio, transcripts, summaries, and action items stay on device; speech
+recognition prefers on-device processing; sync transmits only ciphertext and
+minimal metadata. The "sync is never plaintext" guarantee is **enforced by a
+test** (`testSyncPayloadIsCiphertextNotPlaintext`), not just documented. Full
+details in [`docs/PRIVACY.md`](docs/PRIVACY.md).
+
+## Benchmarks
+
+Host micro-benchmark of the SQLite + FTS5 store (Apple Silicon, release, 2,000
+synthetic memos): **~4,200 memos/sec** insert, search **p50 ~6 ms / p95 ~10 ms**.
+These are host engine numbers (not device numbers) showing local search/indexing
+is not the bottleneck. Reproduce with `swift run -c release MurmurBench`; see
+[`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
 
 ## Build & test
 
@@ -84,6 +105,9 @@ xcodegen generate
 
 # Core logic
 cd MurmurCore && swift test
+
+# Store benchmark
+cd MurmurCore && swift run -c release MurmurBench
 
 # Apps
 xcodebuild -scheme MurmurApp      -destination 'generic/platform=iOS Simulator' build
