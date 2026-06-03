@@ -14,9 +14,12 @@ jobs:
         run: swift test
 
   xcode-build:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v6
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
       - name: Build iOS app
         run: xcodebuild -project Murmur.xcodeproj -scheme MurmurApp -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
       - name: Test macOS app
