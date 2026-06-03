@@ -15,17 +15,16 @@ powers every platform; the UI is built natively in SwiftUI.
 | --- | --- | --- | --- | --- |
 | ![Record](docs/screenshots/record.png) | ![Ask](docs/screenshots/ask.png) | ![Insights](docs/screenshots/insights.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) |
 
-*Ask answers questions from your memos via on-device semantic retrieval +
-Apple's foundation model; Insights (summary, action items, topics) are generated
-on device too. Both degrade gracefully when Apple Intelligence is unavailable.*
+*Ask answers questions from your memos via on-device semantic retrieval and
+Apple's foundation model. Insights (summary, action items, topics) are generated
+on device too.*
 
-### Mac — Ask, answered by Apple Intelligence
+### Mac
 
-![macOS Ask with Apple Intelligence](docs/screenshots/macos.png)
+![macOS Ask](docs/screenshots/macos.png)
 
-*Real output from Apple's on-device foundation model on an Apple
-Intelligence–enabled Mac: the question is answered from the user's own memos
-(retrieved semantically) and cited — nothing leaves the device.*
+*Ask a question and get an answer drawn from your own memos — retrieved
+semantically and cited, generated on device.*
 
 ### Apple Watch
 
@@ -35,16 +34,15 @@ Intelligence–enabled Mac: the question is answered from the user's own memos
 
 - **Ask your memos (on-device RAG).** Ask a question in plain language; Murmur
   retrieves the most relevant memos by *meaning* (on-device embeddings) and has
-  Apple's foundation model answer grounded in them, with citations. Fully
-  private, with an extractive fallback when Apple Intelligence is unavailable.
+  Apple's foundation model answer grounded in them, with citations — fully
+  private.
 - **Semantic + hybrid search.** Memos are embedded with `NLEmbedding`
   (`NaturalLanguage`) and ranked by cosine similarity, then fused with the FTS5
   keyword ranking via Reciprocal Rank Fusion — so search matches both exact words
   and intent.
 - **On-device intelligence (Apple Intelligence).** Per-memo summaries, action
   items, and topics via the `FoundationModels` framework using **guided
-  generation** (`@Generable`) — entirely on device, with a deterministic
-  heuristic fallback on older OSes, watchOS, or when Apple Intelligence is off.
+  generation** (`@Generable`) — entirely on device.
 - **On-device capture and transcription.** Audio is recorded with `AVAudioEngine`
   and transcribed with `SFSpeechRecognizer`, preferring on-device recognition so
   speech never has to leave the device.
