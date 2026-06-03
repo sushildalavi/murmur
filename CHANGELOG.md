@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Semantic search & RAG
+- On-device sentence embeddings (`NLEmbedding`) with a cached `SemanticMemoIndex`
+  for meaning-based ranking.
+- Hybrid search via Reciprocal Rank Fusion of FTS5 keyword + semantic rankings;
+  the Library search now uses it.
+- New **Ask** tab: a retrieval-augmented generation pipeline that answers
+  questions about your memos on device, with citations and an extractive
+  fallback. Replaced the redundant standalone Search tab.
+
 ### Intelligence
 - On-device memo summaries, action items, and topics via Apple Intelligence
   (the `FoundationModels` framework) with guided generation, gated behind

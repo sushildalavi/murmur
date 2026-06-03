@@ -1,21 +1,23 @@
 # Murmur
 
 A local-first voice memo app for iPhone, Mac, and Apple Watch. Murmur records and
-transcribes spoken notes on device, then uses **Apple Intelligence** (the
-on-device foundation model) to summarize them and pull out action items — all
-without anything leaving the device. One shared Swift core powers every platform;
-the UI is built natively in SwiftUI.
+transcribes spoken notes on device, then uses **Apple Intelligence** and
+**on-device semantic search** to summarize them, pull out action items, and let
+you *ask questions about your own memos* — a complete retrieval-augmented
+generation (RAG) pipeline that never leaves the device. One shared Swift core
+powers every platform; the UI is built natively in SwiftUI.
 
 ## Screenshots
 
 ### iPhone
 
-| Record | Insights | Library | Metrics |
-| --- | --- | --- | --- |
-| ![Record](docs/screenshots/record.png) | ![Insights](docs/screenshots/insights.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) |
+| Record | Ask | Insights | Library | Metrics |
+| --- | --- | --- | --- | --- |
+| ![Record](docs/screenshots/record.png) | ![Ask](docs/screenshots/ask.png) | ![Insights](docs/screenshots/insights.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) |
 
-*Insights (summary, action items, topics) are generated on device — by Apple
-Intelligence when available, with a heuristic fallback otherwise.*
+*Ask answers questions from your memos via on-device semantic retrieval +
+Apple's foundation model; Insights (summary, action items, topics) are generated
+on device too. Both degrade gracefully when Apple Intelligence is unavailable.*
 
 ### Mac
 
@@ -27,12 +29,18 @@ Intelligence when available, with a heuristic fallback otherwise.*
 
 ## Features
 
-- **On-device intelligence (Apple Intelligence).** When the device supports it,
-  Murmur runs Apple's on-device foundation model via the `FoundationModels`
-  framework, using **guided generation** (`@Generable`) to produce a structured
-  summary, action items, and topics for each memo — entirely on device. It
-  degrades gracefully to a deterministic heuristic summarizer on older OSes,
-  watchOS, or when Apple Intelligence is unavailable.
+- **Ask your memos (on-device RAG).** Ask a question in plain language; Murmur
+  retrieves the most relevant memos by *meaning* (on-device embeddings) and has
+  Apple's foundation model answer grounded in them, with citations. Fully
+  private, with an extractive fallback when Apple Intelligence is unavailable.
+- **Semantic + hybrid search.** Memos are embedded with `NLEmbedding`
+  (`NaturalLanguage`) and ranked by cosine similarity, then fused with the FTS5
+  keyword ranking via Reciprocal Rank Fusion — so search matches both exact words
+  and intent.
+- **On-device intelligence (Apple Intelligence).** Per-memo summaries, action
+  items, and topics via the `FoundationModels` framework using **guided
+  generation** (`@Generable`) — entirely on device, with a deterministic
+  heuristic fallback on older OSes, watchOS, or when Apple Intelligence is off.
 - **On-device capture and transcription.** Audio is recorded with `AVAudioEngine`
   and transcribed with `SFSpeechRecognizer`, preferring on-device recognition so
   speech never has to leave the device.

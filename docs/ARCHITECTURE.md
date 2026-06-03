@@ -52,6 +52,34 @@ second speech request.
 This is the deliberate counterpoint to keyword/FTS retrieval: generative,
 on-device understanding rather than substring matching.
 
+## Semantic search & RAG
+
+Murmur retrieves memos by meaning, not just keywords, and can answer questions
+about them — a fully on-device retrieval-augmented generation pipeline.
+
+```
+Question / query
+   │
+   ├─ EmbeddingService (NLEmbedding, 512-d) ─ cosine ─► SemanticMemoIndex (cached)
+   │                                                         │  ranked-by-meaning
+   ├─ MemoStore.search (FTS5 bm25) ──────────────────────────┤  ranked-by-keyword
+   │                                                         ▼
+   │                                          HybridSearch.reciprocalRankFusion  → Library results
+   │
+   └─ MemoAnswerService: top-k semantic retrieval → FoundationModels (grounded) → Answer + sources
+```
+
+- **Embeddings:** `EmbeddingService` wraps `NLEmbedding.sentenceEmbedding`
+  (`NaturalLanguage`) — on device, no dependency, available since iOS 14 / macOS
+  11 (so it is safe to depend on unconditionally, unlike the iOS 26 model).
+- **Semantic index:** `SemanticMemoIndex` caches memo vectors by id + `updatedAt`
+  and ranks by cosine similarity.
+- **Hybrid search:** `HybridSearch.reciprocalRankFusion` fuses the keyword (FTS5)
+  and semantic rankings without score normalization; the Library search uses it.
+- **RAG:** `MemoAnswerService` retrieves the top memos semantically, then prompts
+  the foundation model to answer grounded in them (with citations), falling back
+  to an extractive answer when Apple Intelligence is unavailable.
+
 ## Persistence
 
 `MemoStore` is the observable, in-memory view SwiftUI binds to. Durability is
