@@ -19,6 +19,10 @@ let package = Package(
                 .linkedLibrary("sqlite3")
             ]
         ),
+        .executableTarget(
+            name: "MurmurBench",
+            dependencies: ["MurmurCore"]
+        ),
         .testTarget(
             name: "MurmurCoreTests",
             dependencies: ["MurmurCore"]

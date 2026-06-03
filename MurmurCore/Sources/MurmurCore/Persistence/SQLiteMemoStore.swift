@@ -52,7 +52,13 @@ public final class SQLiteMemoStore: MemoPersistence, @unchecked Sendable {
             ?? FileManager.default.temporaryDirectory
         let directory = base.appendingPathComponent("Murmur", isDirectory: true)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        return try SQLiteMemoStore(path: directory.appendingPathComponent("memos.sqlite").path)
+        var dbURL = directory.appendingPathComponent("memos.sqlite")
+        let store = try SQLiteMemoStore(path: dbURL.path)
+        // The local index holds plaintext transcripts; keep it out of iCloud backups.
+        var resourceValues = URLResourceValues()
+        resourceValues.isExcludedFromBackup = true
+        try? dbURL.setResourceValues(resourceValues)
+        return store
     }
 
     // MARK: - Setup
