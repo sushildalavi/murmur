@@ -29,16 +29,16 @@ Swift 6, SwiftUI, SwiftData, SpeechAnalyzer, Foundation Models, CryptoKit, App I
 - Phase 4 — encrypted sync backend.
 
 ## Current Status
-Phase 0 — repository setup and project skeleton.
+Phase 4 — core client, local search, intents, and backend foundations are implemented.
 
 ## Privacy Model
 Raw audio, transcripts, summaries, and action items never leave the device in plaintext.
 
 ## Running Locally
-Phase 0 only. No runnable app or backend is committed yet.
+Build the app with Xcode or `xcodebuild`, and run the Go server from `server/cmd/murmurd`.
 
 ## Testing
-No automated tests are present in Phase 0.
+Validated with `swift test` in `MurmurCore`, iOS and macOS `xcodebuild` runs, and `go test ./...` plus `go build ./cmd/murmurd` in `server`.
 
 ## Roadmap
 - Set up the Swift project structure.
