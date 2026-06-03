@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Summarizer {
+public struct Summarizer: Sendable {
     private let stopWords: Set<String> = [
         "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",
         "in", "is", "it", "of", "on", "or", "that", "the", "to", "was",
