@@ -47,6 +47,19 @@ targets:
     dependencies:
       - target: MurmurMacApp
       - package: MurmurCore
+  MurmurWatchApp:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: MurmurWatchApp
+    dependencies:
+      - package: MurmurCore
+    settings:
+      base:
+        INFOPLIST_FILE: MurmurWatchApp/Resources/Info.plist
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
 schemes:
   MurmurApp:
     build:
@@ -59,3 +72,7 @@ schemes:
     test:
       targets:
         - MurmurMacAppTests
+  MurmurWatchApp:
+    build:
+      targets:
+        MurmurWatchApp: all

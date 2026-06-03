@@ -4,6 +4,9 @@ import Observation
 @Observable
 final class SettingsViewModel {
     var isPrivacyModeEnabled = true
-    var keyStatus = "Local encryption enabled"
-    init() {}
+    var keyStatus: String
+
+    init(syncStatus: String = "Local encryption enabled") {
+        self.keyStatus = syncStatus
+    }
 }

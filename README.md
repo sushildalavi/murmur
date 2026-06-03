@@ -29,7 +29,7 @@ Swift 6, SwiftUI, SwiftData, SpeechAnalyzer, Foundation Models, CryptoKit, App I
 - Phase 4 — encrypted sync backend.
 
 ## Current Status
-Phase 4 — core client, local search, intents, and backend foundations are implemented.
+Feature-complete foundation — iPhone, Mac, Watch, App Intents, local encryption, and ciphertext-only sync are implemented and validated.
 
 ## Privacy Model
 Raw audio, transcripts, summaries, and action items never leave the device in plaintext.
@@ -41,11 +41,9 @@ Build the app with Xcode or `xcodebuild`, and run the Go server from `server/cmd
 Validated with `swift test` in `MurmurCore`, iOS and macOS `xcodebuild` runs, and `go test ./...` plus `go build ./cmd/murmurd` in `server`.
 
 ## Roadmap
-- Set up the Swift project structure.
-- Implement local memo capture and transcription.
-- Add encrypted memo indexing and search.
-- Build watchOS and App Intents support.
-- Add ciphertext-only sync through the backend.
+- Polish UX, error handling, and settings.
+- Harden sync conflict handling and operational logging.
+- Add release packaging, signing, and distribution prep.
 
 ## License
 MIT License. See `LICENSE`.

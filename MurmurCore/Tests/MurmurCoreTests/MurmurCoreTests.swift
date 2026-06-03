@@ -136,6 +136,29 @@ final class MurmurCoreTests: XCTestCase {
 
         try await client.delete(memoID: memoID)
     }
+
+    func testMemoSyncServiceEncryptsAndRestoresMemo() async throws {
+        let client = InMemorySyncClient()
+        let store = InMemorySecretStore()
+        let service = MemoSyncService(client: client, secretStore: store)
+        let memo = Memo(
+            id: UUID(uuidString: "22222222-2222-2222-2222-222222222222")!,
+            title: "Encrypted memo",
+            audioFileURL: URL(fileURLWithPath: "/tmp/encrypted.m4a"),
+            createdAt: Date(timeIntervalSince1970: 10),
+            updatedAt: Date(timeIntervalSince1970: 20),
+            transcriptSegments: [
+                TranscriptSegment(text: "Keep this private", startTime: 0, endTime: 1)
+            ]
+        )
+
+        try await service.sync(memo)
+        let restored = try await service.fetchMemos()
+
+        XCTAssertEqual(restored.count, 1)
+        XCTAssertEqual(restored.first?.title, memo.title)
+        XCTAssertEqual(restored.first?.transcriptText, memo.transcriptText)
+    }
 }
 
 final class MockURLProtocol: URLProtocol {

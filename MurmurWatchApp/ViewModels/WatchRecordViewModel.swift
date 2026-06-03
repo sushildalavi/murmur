@@ -4,7 +4,7 @@ import MurmurCore
 
 @MainActor
 @Observable
-final class RecordViewModel {
+final class WatchRecordViewModel {
     var phase: RecordingPhase = .idle
     var audioLevel: Double = 0
     var elapsedSeconds: Int = 0
@@ -19,7 +19,6 @@ final class RecordViewModel {
     @ObservationIgnored private let uuidProvider: () -> UUID
     @ObservationIgnored private let dateProvider: () -> Date
     @ObservationIgnored private let localeProvider: () -> Locale
-    @ObservationIgnored private let syncHandler: ((Memo) async -> Void)?
 
     @ObservationIgnored private var currentSession: (any AudioRecordingSession)?
     @ObservationIgnored private var levelTask: Task<Void, Never>?
@@ -35,8 +34,7 @@ final class RecordViewModel {
         recordingDirectoryProvider: @escaping () -> URL,
         uuidProvider: @escaping () -> UUID,
         dateProvider: @escaping () -> Date,
-        localeProvider: @escaping () -> Locale,
-        syncHandler: ((Memo) async -> Void)? = nil
+        localeProvider: @escaping () -> Locale
     ) {
         self.recorder = recorder
         self.transcriber = transcriber
@@ -45,7 +43,6 @@ final class RecordViewModel {
         self.uuidProvider = uuidProvider
         self.dateProvider = dateProvider
         self.localeProvider = localeProvider
-        self.syncHandler = syncHandler
     }
 
     func startRecording() async {
@@ -102,9 +99,6 @@ final class RecordViewModel {
             savedMemo = memo
             liveTranscript = memo.transcriptSegments
             phase = .saved
-            if let syncHandler {
-                Task { await syncHandler(memo) }
-            }
         } catch {
             errorMessage = error.localizedDescription
             phase = .idle

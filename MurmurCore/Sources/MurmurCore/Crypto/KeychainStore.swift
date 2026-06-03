@@ -1,6 +1,12 @@
 import Foundation
 import Security
 
+public protocol SecretStoring: Sendable {
+    func save(_ data: Data, for key: String) throws
+    func data(for key: String) throws -> Data?
+    func delete(_ key: String) throws
+}
+
 public struct KeychainStore {
     public enum StoreError: Error {
         case unhandledStatus(OSStatus)
@@ -54,5 +60,32 @@ public struct KeychainStore {
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw StoreError.unhandledStatus(status)
         }
+    }
+}
+
+extension KeychainStore: SecretStoring {}
+
+public final class InMemorySecretStore: SecretStoring, @unchecked Sendable {
+    private let lock = NSLock()
+    private var values: [String: Data] = [:]
+
+    public init() {}
+
+    public func save(_ data: Data, for key: String) throws {
+        lock.lock()
+        defer { lock.unlock() }
+        values[key] = data
+    }
+
+    public func data(for key: String) throws -> Data? {
+        lock.lock()
+        defer { lock.unlock() }
+        return values[key]
+    }
+
+    public func delete(_ key: String) throws {
+        lock.lock()
+        defer { lock.unlock() }
+        values.removeValue(forKey: key)
     }
 }
