@@ -33,6 +33,25 @@ the live transcript already captured and only falls back to a full-file
 transcription when nothing streamed, which avoids a redundant (and rate-limited)
 second speech request.
 
+## On-device intelligence
+
+`IntelligentSummarizer` turns a transcript into a structured `MemoInsights`
+(summary, action items, topics):
+
+- On iOS 26 / macOS 26 with Apple Intelligence available, it runs Apple's
+  on-device foundation model through `FoundationModels`, using **guided
+  generation** — a `@Generable` struct with `@Guide` field hints — so the model
+  returns typed fields directly instead of free text that needs parsing.
+- It checks `SystemLanguageModel.default.availability` and surfaces the reason
+  (device not eligible, Apple Intelligence off, model still downloading) to the UI.
+- On any other platform/version, when Apple Intelligence is off, or on any model
+  error, it falls back to the deterministic heuristic `Summarizer`. The whole
+  foundation-model path is wrapped in `#if canImport(FoundationModels)` +
+  `@available`, so the package still builds on older SDKs (CI) using the fallback.
+
+This is the deliberate counterpoint to keyword/FTS retrieval: generative,
+on-device understanding rather than substring matching.
+
 ## Persistence
 
 `MemoStore` is the observable, in-memory view SwiftUI binds to. Durability is

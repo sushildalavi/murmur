@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Intelligence
+- On-device memo summaries, action items, and topics via Apple Intelligence
+  (the `FoundationModels` framework) with guided generation, gated behind
+  availability checks and a deterministic heuristic fallback.
+
 ### Persistence & search
 - Memos now persist in a local SQLite database (system `sqlite3`, WAL) and
   survive relaunch, behind a `MemoPersistence` protocol.
