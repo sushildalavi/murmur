@@ -21,6 +21,31 @@ public struct MemoMetrics: Codable, Equatable, Hashable, Sendable {
         self.memoDaysActive = memoDaysActive
     }
 
+    public var averageWordsPerMemo: Double {
+        guard totalMemos > 0 else { return 0 }
+        return Double(totalWords) / Double(totalMemos)
+    }
+
+    public var averageSegmentsPerMemo: Double {
+        guard totalMemos > 0 else { return 0 }
+        return Double(totalTranscriptSegments) / Double(totalMemos)
+    }
+
+    public var averageWordsPerSegment: Double {
+        guard totalTranscriptSegments > 0 else { return 0 }
+        return Double(totalWords) / Double(totalTranscriptSegments)
+    }
+
+    public var memosPerActiveDay: Double {
+        guard memoDaysActive > 0 else { return 0 }
+        return Double(totalMemos) / Double(memoDaysActive)
+    }
+
+    @available(*, deprecated, renamed: "memosPerActiveDay")
+    public var memoPerActiveDay: Double {
+        memosPerActiveDay
+    }
+
     public static func calculate(from memos: [Memo], calendar: Calendar = .current) -> MemoMetrics {
         let totalTranscriptSegments = memos.reduce(into: 0) { result, memo in
             result += memo.transcriptSegments.count

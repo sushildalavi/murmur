@@ -194,6 +194,7 @@ final class MurmurCoreTests: XCTestCase {
         XCTAssertEqual(metrics.totalWords, 9)
         XCTAssertEqual(metrics.latestMemoDate, secondDate)
         XCTAssertEqual(metrics.memoDaysActive, 2)
+        XCTAssertEqual(metrics.memosPerActiveDay, 1)
     }
 }
 
