@@ -84,6 +84,14 @@ struct ContentView: View {
             return
         }
 
+        // Capture the Ask (RAG) screen with a populated answer.
+        if environment["MURMUR_UI_DEMO_ASK"] == "1" {
+            selectedTab = .ask
+            container.askViewModel.question = "What do I need to follow up on?"
+            await container.askViewModel.ask()
+            return
+        }
+
         guard environment["MURMUR_UI_DEMO_AUTOSTART"] == "1" else { return }
         selectedTab = .record
         await container.recordViewModel.startRecording()
@@ -98,8 +106,8 @@ struct ContentView: View {
 
         switch demoTabArgument ?? processInfo.environment["MURMUR_UI_DEMO_TAB"] {
         case "library": return .library
+        case "ask": return .ask
         case "metrics": return .metrics
-        case "search": return .search
         case "settings": return .settings
         default: return .record
         }
@@ -132,16 +140,16 @@ private struct DemoInsightsDetail: View {
 enum AppTab: String, CaseIterable, Hashable {
     case record
     case library
+    case ask
     case metrics
-    case search
     case settings
 
     var title: String {
         switch self {
         case .record: return "Record"
         case .library: return "Library"
+        case .ask: return "Ask"
         case .metrics: return "Metrics"
-        case .search: return "Search"
         case .settings: return "Settings"
         }
     }
@@ -150,8 +158,8 @@ enum AppTab: String, CaseIterable, Hashable {
         switch self {
         case .record: return "mic.fill"
         case .library: return "rectangle.stack.fill"
+        case .ask: return "sparkles"
         case .metrics: return "chart.bar.fill"
-        case .search: return "magnifyingglass"
         case .settings: return "gearshape.fill"
         }
     }
@@ -164,10 +172,10 @@ enum AppTab: String, CaseIterable, Hashable {
             RecordView(viewModel: container.recordViewModel)
         case .library:
             LibraryView(viewModel: container.libraryViewModel)
+        case .ask:
+            AskView(viewModel: container.askViewModel)
         case .metrics:
             MetricsView(viewModel: container.metricsViewModel)
-        case .search:
-            SearchView(memoStore: container.memoStore)
         case .settings:
             SettingsView(viewModel: container.settingsViewModel)
         }

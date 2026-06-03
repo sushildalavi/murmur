@@ -9,9 +9,11 @@ final class LibraryViewModel {
     var memos: [Memo] = []
 
     @ObservationIgnored private let memoStore: MemoStore
+    @ObservationIgnored private let semanticIndex: SemanticMemoIndex
 
-    init(memoStore: MemoStore) {
+    init(memoStore: MemoStore, semanticIndex: SemanticMemoIndex) {
         self.memoStore = memoStore
+        self.semanticIndex = semanticIndex
         self.memos = memoStore.memos
     }
 
@@ -27,12 +29,16 @@ final class LibraryViewModel {
         refresh()
     }
 
+    /// Hybrid search: fuses the FTS5 keyword ranking with on-device semantic
+    /// ranking via Reciprocal Rank Fusion, so results match both exact words and
+    /// meaning. Falls back to keyword-only when embeddings are unavailable.
     var filteredMemos: [Memo] {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return memos }
-        return memos.filter {
-            $0.title.localizedCaseInsensitiveContains(query) ||
-            $0.transcriptText.localizedCaseInsensitiveContains(query)
-        }
+
+        let keyword = memoStore.search(query)
+        let semantic = semanticIndex.rankedMemos(query, in: memos, limit: 20, threshold: 0.15)
+        guard !semantic.isEmpty else { return keyword }
+        return HybridSearch.reciprocalRankFusion([keyword, semantic])
     }
 }

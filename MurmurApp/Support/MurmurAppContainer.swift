@@ -8,6 +8,9 @@ final class MurmurAppContainer {
     let transcriber: Transcriber
     let memoSyncService: MemoSyncService?
 
+    /// Shared on-device semantic index reused by hybrid search and the RAG flow.
+    let semanticIndex = SemanticMemoIndex()
+
     lazy var recordViewModel: RecordViewModel = RecordViewModel(
         recorder: audioRecorder,
         transcriber: transcriber,
@@ -23,7 +26,11 @@ final class MurmurAppContainer {
         }
     )
 
-    lazy var libraryViewModel: LibraryViewModel = LibraryViewModel(memoStore: memoStore)
+    lazy var libraryViewModel: LibraryViewModel = LibraryViewModel(memoStore: memoStore, semanticIndex: semanticIndex)
+    lazy var askViewModel: AskViewModel = AskViewModel(
+        memoStore: memoStore,
+        answerService: MemoAnswerService(semanticIndex: semanticIndex)
+    )
     lazy var metricsViewModel: MetricsViewModel = MetricsViewModel(memoStore: memoStore)
     lazy var settingsViewModel: SettingsViewModel = SettingsViewModel(
         syncStatus: memoSyncService == nil ? "Encrypted sync disabled" : "Encrypted sync enabled"
