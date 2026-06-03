@@ -11,11 +11,13 @@
 		0555186C883679E9B4A4778A /* MemoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A42EA4B53CAC26535EABE33 /* MemoDetailViewModel.swift */; };
 		140BAA03E5B2403107EB5737 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */; };
 		1D9119B478D46C060A3DF8D2 /* MurmurAppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF623630B8C68E5B94934CD3 /* MurmurAppContainer.swift */; };
+		2B1FEE7437516D6797C682FB /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB66C784AB21EB552B59256 /* AudioPlayerView.swift */; };
 		2C1EF22FC36AD37D3E16B0CD /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C902387A51467AF25659AD /* SettingsViewModel.swift */; };
 		2D13835FE68090820F1C864C /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2DC2862647AF85214F9DBC /* MetricsView.swift */; };
 		33FB02F379AEEB5188049C3F /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */; };
 		35793F9E73FEE42CBA07CE05 /* MemoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */; };
 		3E25AEA89EA25B2AA80D956A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04B533583435F36A71BD564 /* ContentView.swift */; };
+		3F23567D80BB7A0DD22E5ADF /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB66C784AB21EB552B59256 /* AudioPlayerView.swift */; };
 		4325771AEAC410066D3AEEB7 /* MurmurCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0061F7CD2CBB35A921957D91 /* MurmurCore */; };
 		441728417EBB416398670804 /* MurmurCore in Frameworks */ = {isa = PBXBuildFile; productRef = D12B8AE4A3D261D377818FEB /* MurmurCore */; };
 		4DEFBA8E90786BBE77BC4832 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5B96FF77F1E12DF43EA870 /* WatchContentView.swift */; };
@@ -66,6 +68,7 @@
 		4287FA2EBE96E0BA102534F9 /* MurmurDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurDesignSystem.swift; sourceTree = "<group>"; };
 		43C902387A51467AF25659AD /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45423DCA14B009E95F3852A2 /* Murmur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Murmur.entitlements; sourceTree = "<group>"; };
+		4AB66C784AB21EB552B59256 /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		52E1E4F18B7F754159CA0BC4 /* MurmurWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MurmurWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CD3839B9A16EE0A31942B4 /* MurmurMacAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MurmurMacAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DBD0FEA32C05FD2551CD14 /* Murmur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Murmur.entitlements; sourceTree = "<group>"; };
@@ -225,6 +228,7 @@
 		BA15B626F2863DA5CA32B081 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4AB66C784AB21EB552B59256 /* AudioPlayerView.swift */,
 				B04B533583435F36A71BD564 /* ContentView.swift */,
 				A7366F5465FB302E8FD9F1EF /* LibraryView.swift */,
 				20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */,
@@ -421,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F23567D80BB7A0DD22E5ADF /* AudioPlayerView.swift in Sources */,
 				8B82BF3D3DA06DB77BF0D15F /* ContentView.swift in Sources */,
 				C80BE1B205ABAEA9188A5A45 /* LibraryView.swift in Sources */,
 				EC235BDE2C2DF0B661F52F46 /* LibraryViewModel.swift in Sources */,
@@ -443,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1FEE7437516D6797C682FB /* AudioPlayerView.swift in Sources */,
 				3E25AEA89EA25B2AA80D956A /* ContentView.swift in Sources */,
 				F1C63C1871FB4450ACF1A531 /* LibraryView.swift in Sources */,
 				B05235AD1344BFD16297A438 /* LibraryViewModel.swift in Sources */,

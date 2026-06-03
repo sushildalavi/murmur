@@ -18,7 +18,7 @@ struct MemoDetailView: View {
     var body: some View {
         List {
             Section {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 12) {
                     Text(memo.createdAt.formatted(date: .complete, time: .shortened))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -27,6 +27,8 @@ struct MemoDetailView: View {
                         MurmurBadge(title: "\(memo.transcriptSegments.count) segments", symbol: "text.quote")
                         MurmurBadge(title: "\(wordCount) words", symbol: "number")
                     }
+
+                    AudioPlayerView(url: memo.audioFileURL)
                 }
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
             }

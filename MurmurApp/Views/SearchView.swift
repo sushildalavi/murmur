@@ -10,14 +10,11 @@ struct SearchView: View {
         _memoStore = State(initialValue: memoStore)
     }
 
-    /// Ranked results from the Core search index, so the same scoring the rest
-    /// of the app relies on drives this screen rather than a naive substring scan.
+    /// Ranked results from the store's search (FTS5 when persistence is
+    /// available, the in-memory ranking index otherwise) — the same path the
+    /// rest of the app uses, not a naive substring scan.
     private var results: [Memo] {
-        var index = MemoSearchIndex()
-        for memo in memoStore.memos {
-            index.upsert(memo)
-        }
-        return index.search(query)
+        memoStore.search(query)
     }
 
     var body: some View {

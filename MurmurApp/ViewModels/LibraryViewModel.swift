@@ -19,6 +19,14 @@ final class LibraryViewModel {
         memos = memoStore.memos
     }
 
+    func delete(at offsets: IndexSet) {
+        let targets = offsets.map { filteredMemos[$0] }
+        for memo in targets {
+            memoStore.remove(id: memo.id)
+        }
+        refresh()
+    }
+
     var filteredMemos: [Memo] {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return memos }

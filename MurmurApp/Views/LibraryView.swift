@@ -40,6 +40,7 @@ struct LibraryView: View {
                         MurmurMemoRow(memo: memo, snippet: memo.transcriptText)
                     }
                 }
+                .onDelete(perform: viewModel.delete)
             } header: {
                 Text(headerText)
             }
