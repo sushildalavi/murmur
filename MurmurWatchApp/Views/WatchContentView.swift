@@ -14,15 +14,15 @@ struct WatchContentView: View {
     private var isRecording: Bool { recorder.phase == .recording }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 12) {
-                timer
-                recordButton
-                transcript
-            }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
+        VStack(spacing: 8) {
+            timer
+            transcript
+            Spacer(minLength: 0)
+            recordButton
         }
+        .padding(.horizontal, 8)
+        .padding(.top, 2)
+        .padding(.bottom, 6)
         .navigationTitle("Murmur")
         .task {
 #if DEBUG
@@ -35,17 +35,17 @@ struct WatchContentView: View {
     }
 
     private var timer: some View {
-        VStack(spacing: 2) {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
             Text(timeString(recorder.elapsedSeconds))
-                .font(.system(size: 34, weight: .light, design: .rounded))
+                .font(.system(size: 30, weight: .light, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(isRecording ? Color.murmurRecording : .primary)
                 .contentTransition(.numericText())
             Text(statusText)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(isRecording ? Color.murmurRecording : .secondary)
+            Spacer()
         }
-        .frame(maxWidth: .infinity)
     }
 
     private var recordButton: some View {
@@ -68,7 +68,7 @@ struct WatchContentView: View {
                     ProgressView().tint(.white)
                 }
             }
-            .frame(width: 64, height: 64)
+            .frame(width: 58, height: 58)
         }
         .buttonStyle(.plain)
         .disabled(recorder.phase == .processing)
@@ -84,6 +84,8 @@ struct WatchContentView: View {
             if let last = recorder.liveTranscript.last {
                 Text(last.text)
                     .font(.footnote)
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else if let saved = recorder.savedMemo {
                 Label(saved.title, systemImage: "checkmark.circle.fill")
