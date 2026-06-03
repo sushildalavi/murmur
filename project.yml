@@ -48,6 +48,9 @@ targets:
     dependencies:
       - target: MurmurMacApp
       - package: MurmurCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
   MurmurWatchApp:
     type: application
     platform: watchOS

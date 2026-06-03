@@ -25,6 +25,19 @@ struct ContentView: View {
 
     @ViewBuilder
     private var shell: some View {
+        platformBody
+            .onReceive(NotificationCenter.default.publisher(for: .murmurStartRecordingRequested)) { _ in
+                selectedTab = .record
+                Task { await container.recordViewModel.startRecording() }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .murmurStopRecordingRequested)) { _ in
+                selectedTab = .record
+                Task { await container.recordViewModel.stopRecording() }
+            }
+    }
+
+    @ViewBuilder
+    private var platformBody: some View {
 #if os(macOS)
         macBody
 #else

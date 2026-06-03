@@ -12,6 +12,9 @@ jobs:
       - name: Test MurmurCore
         working-directory: MurmurCore
         run: swift test
+      - name: Benchmark smoke test
+        working-directory: MurmurCore
+        run: swift run -c release MurmurBench 100 20 --json-out /tmp/murmur-bench.json
 
   xcode-build:
     runs-on: macos-15

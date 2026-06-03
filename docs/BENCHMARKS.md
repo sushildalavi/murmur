@@ -20,11 +20,14 @@ keyword queries:
 
 | Metric | Value |
 |---|---|
-| Insert throughput | ~4,200 memos/sec |
-| Insert total (2,000 memos) | ~480 ms |
-| Search latency p50 | ~6 ms |
-| Search latency p95 | ~10 ms |
-| Index size (2,000 memos) | ~1.3 MB |
+| Insert throughput | 2,805 memos/sec |
+| Insert total (2,000 memos) | 713 ms |
+| Search latency p50 | 7.285 ms |
+| Search latency p95 | 18.231 ms |
+| Search latency max | 189.505 ms |
+| Index size (2,000 memos) | 1,328 KB |
+
+The benchmark harness also supports `--json-out` for machine-readable runs.
 
 Search latency here includes fully decoding and ranking every matching row
 (common query terms match a large fraction of the corpus), so it is an upper

@@ -16,6 +16,9 @@ struct MurmurMacApp: App {
         WindowGroup {
             ContentView()
         }
+        .commands {
+            MurmurCommands()
+        }
     }
 }
 #endif

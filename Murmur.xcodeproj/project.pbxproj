@@ -21,15 +21,20 @@
 		3F3F28CCFB002EBCEFBEB3DA /* AskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D28CDE6C4B693CD8998EBE /* AskViewModel.swift */; };
 		4325771AEAC410066D3AEEB7 /* MurmurCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0061F7CD2CBB35A921957D91 /* MurmurCore */; };
 		441728417EBB416398670804 /* MurmurCore in Frameworks */ = {isa = PBXBuildFile; productRef = D12B8AE4A3D261D377818FEB /* MurmurCore */; };
+		48DE30691451725C8569C0B2 /* MurmurShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088DB9FBC158DD9CE6880BCF /* MurmurShortcuts.swift */; };
 		4DEFBA8E90786BBE77BC4832 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5B96FF77F1E12DF43EA870 /* WatchContentView.swift */; };
 		53468F36BDB25BEC8DF92DE3 /* MemoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A42EA4B53CAC26535EABE33 /* MemoDetailViewModel.swift */; };
+		5B5522EE450CBA5A916144B9 /* MurmurShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088DB9FBC158DD9CE6880BCF /* MurmurShortcuts.swift */; };
+		5D5489B373537DA06636D0FC /* MurmurCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D3E99B9F2ADCBEF384AEA /* MurmurCommands.swift */; };
 		607B853B21C65543C66E2A7E /* MurmurWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE8163843E13A23940D750A /* MurmurWatchApp.swift */; };
+		622B5C4232BA4BB03380238A /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98125D4B9E27CADCE3D3B5D7 /* ViewModelTests.swift */; };
 		679061F06190BF2304899C8B /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */; };
 		6A6B853CFD784D1CF612D9B2 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8860C3B7E2B4430E40B466 /* RecordViewModel.swift */; };
 		6B25D11EE38378FAD026AD79 /* MurmurWatchAppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7DA28A67A2BCE51EB15CE /* MurmurWatchAppContainer.swift */; };
 		73001460BEF575C3E59F2B8B /* WatchRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA6C62328130175E08DF688 /* WatchRecordViewModel.swift */; };
 		76D83C678983DB207008EBD1 /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */; };
 		7D7F3545361C45FAE8A69C48 /* AskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D28CDE6C4B693CD8998EBE /* AskViewModel.swift */; };
+		7F9FE6B29769F0E27425B4DC /* MurmurCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D3E99B9F2ADCBEF384AEA /* MurmurCommands.swift */; };
 		80AAB307D71CDCD739566396 /* MurmurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C08D9972D05BB1E2E2BDB5 /* MurmurApp.swift */; };
 		84AED457318C8F03917C457C /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C902387A51467AF25659AD /* SettingsViewModel.swift */; };
 		87D47695DFC616BCD3CA8F01 /* AskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4EA4B5142230B85A75B745B /* AskView.swift */; };
@@ -63,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		088DB9FBC158DD9CE6880BCF /* MurmurShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurShortcuts.swift; sourceTree = "<group>"; };
 		20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailView.swift; sourceTree = "<group>"; };
 		21FCC67C11308734C9D07EAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsViewModel.swift; sourceTree = "<group>"; };
@@ -76,9 +82,11 @@
 		57DBD0FEA32C05FD2551CD14 /* Murmur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Murmur.entitlements; sourceTree = "<group>"; };
 		5B3B3D5559233A008E7082C0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		69C08D9972D05BB1E2E2BDB5 /* MurmurApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurApp.swift; sourceTree = "<group>"; };
+		6B1D3E99B9F2ADCBEF384AEA /* MurmurCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurCommands.swift; sourceTree = "<group>"; };
 		6FF7B15C22D1FD9136BB13BC /* MurmurCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MurmurCore; path = MurmurCore; sourceTree = SOURCE_ROOT; };
 		80D28CDE6C4B693CD8998EBE /* AskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskViewModel.swift; sourceTree = "<group>"; };
 		8C8860C3B7E2B4430E40B466 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
+		98125D4B9E27CADCE3D3B5D7 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		9A42EA4B53CAC26535EABE33 /* MemoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewModel.swift; sourceTree = "<group>"; };
 		A4EA4B5142230B85A75B745B /* AskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskView.swift; sourceTree = "<group>"; };
 		A7366F5465FB302E8FD9F1EF /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
@@ -186,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				FAB98571331852FE752AB008 /* RecordViewModelTests.swift */,
+				98125D4B9E27CADCE3D3B5D7 /* ViewModelTests.swift */,
 			);
 			path = MurmurAppTests;
 			sourceTree = "<group>";
@@ -225,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				FF623630B8C68E5B94934CD3 /* MurmurAppContainer.swift */,
+				6B1D3E99B9F2ADCBEF384AEA /* MurmurCommands.swift */,
+				088DB9FBC158DD9CE6880BCF /* MurmurShortcuts.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -411,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD5202C1897F850F44B1590 /* RecordViewModelTests.swift in Sources */,
+				622B5C4232BA4BB03380238A /* ViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +453,9 @@
 				679061F06190BF2304899C8B /* MetricsViewModel.swift in Sources */,
 				80AAB307D71CDCD739566396 /* MurmurApp.swift in Sources */,
 				1D9119B478D46C060A3DF8D2 /* MurmurAppContainer.swift in Sources */,
+				7F9FE6B29769F0E27425B4DC /* MurmurCommands.swift in Sources */,
 				CFAA069A6EFC5D707BC78D2F /* MurmurDesignSystem.swift in Sources */,
+				5B5522EE450CBA5A916144B9 /* MurmurShortcuts.swift in Sources */,
 				140BAA03E5B2403107EB5737 /* RecordView.swift in Sources */,
 				BEA9FECD665ED0736376EBFF /* RecordViewModel.swift in Sources */,
 				B976091282FA8D3B9AB772B8 /* SettingsView.swift in Sources */,
@@ -465,7 +479,9 @@
 				76D83C678983DB207008EBD1 /* MetricsViewModel.swift in Sources */,
 				FF83D5D06A3464026220837E /* MurmurApp.swift in Sources */,
 				C5EFE4E18FD67302DC14D0DB /* MurmurAppContainer.swift in Sources */,
+				5D5489B373537DA06636D0FC /* MurmurCommands.swift in Sources */,
 				BB7A2D886C876D6C189116CD /* MurmurDesignSystem.swift in Sources */,
+				48DE30691451725C8569C0B2 /* MurmurShortcuts.swift in Sources */,
 				33FB02F379AEEB5188049C3F /* RecordView.swift in Sources */,
 				6A6B853CFD784D1CF612D9B2 /* RecordViewModel.swift in Sources */,
 				951856CF006ED8AFE68455D4 /* SettingsView.swift in Sources */,
@@ -545,6 +561,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -668,6 +685,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

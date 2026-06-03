@@ -92,6 +92,7 @@ struct AudioPlayerView: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(model.isPlaying ? "Pause" : "Play")
+                .accessibilityHint("Plays or pauses the memo recording.")
 
                 VStack(spacing: 4) {
                     ProgressView(value: progress)
@@ -104,6 +105,9 @@ struct AudioPlayerView: View {
                     .font(.caption2.monospacedDigit())
                     .foregroundStyle(.secondary)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Playback progress")
+                .accessibilityValue("\(Int(progress * 100)) percent")
             }
             .padding(.vertical, 4)
         } else {

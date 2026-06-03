@@ -177,6 +177,7 @@ private struct RecordButton: View {
         .disabled(isBusy)
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isRecording)
         .accessibilityLabel(isRecording ? "Stop recording" : "Start recording")
+        .accessibilityHint(isRecording ? "Stops the active memo and saves it locally." : "Starts a new local voice memo.")
     }
 }
 

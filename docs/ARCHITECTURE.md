@@ -103,11 +103,28 @@ Keychain) before it reaches the Go server, which only ever stores ciphertext and
 minimal metadata. The "sync is ciphertext, never plaintext" guarantee is
 asserted by a test, not just documented. See [PRIVACY](PRIVACY.md).
 
+## App Intents & shortcuts
+
+Murmur exposes Siri/Shortcuts actions from the shared core rather than keeping
+them in the app shells:
+
+- Start and stop recording.
+- Search memos.
+- Ask a question about memos.
+- Summarize the latest memo.
+- Extract action items from the latest memo.
+- Sync memos when backup is configured.
+- Delete the best matching memo with confirmation.
+
+`MurmurApp` registers the shortcuts provider, and the macOS app adds a command
+menu with start/stop recording shortcuts so the intent surface is available both
+through Siri/Shortcuts and through the app UI.
+
 ## Testing
 
 `MurmurCore` has a host XCTest suite (crypto round-trip, FTS search/ranking,
 persistence durability across instances, upsert reindexing, deletion, sync
-encryption, metrics, and the privacy invariant). The app target adds view-model
-tests for the recording state machine and deterministic save path. CI runs the
-package tests, the macOS app tests, an iOS build, and the Go server tests on
-every push.
+encryption, metrics, intent routing, and the privacy invariant). The app target
+adds view-model tests for the recording state machine and deterministic save
+path. CI runs the package tests, the macOS app tests, an iOS build, and the Go
+server tests on every push.

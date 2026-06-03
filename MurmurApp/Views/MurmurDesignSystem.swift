@@ -140,6 +140,8 @@ struct MurmurMemoRow: View {
             }
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(memo.title). \(snippet.isEmpty ? "No snippet available." : snippet)")
     }
 }
 
@@ -165,6 +167,8 @@ struct MurmurTranscriptRow: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(speakerLabel), \(timestamp). \(segment.text)")
     }
 
     private var timestamp: String {

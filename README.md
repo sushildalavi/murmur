@@ -1,11 +1,10 @@
 # Murmur
 
-A local-first voice memo app for iPhone, Mac, and Apple Watch. Murmur records and
-transcribes spoken notes on device, then uses **Apple Intelligence** and
-**on-device semantic search** to summarize them, pull out action items, and let
-you *ask questions about your own memos* — a complete retrieval-augmented
-generation (RAG) pipeline that never leaves the device. One shared Swift core
-powers every platform; the UI is built natively in SwiftUI.
+A local-first voice memo app for iPhone, Mac, and Apple Watch. Murmur records
+and transcribes spoken notes on device, then uses **Apple Intelligence** when
+available plus **on-device semantic search** to summarize them, pull out action
+items, answer questions about your own memos, and sync encrypted backups. One
+shared Swift core powers every platform; the UI is built natively in SwiftUI.
 
 ## Screenshots
 
@@ -16,14 +15,14 @@ powers every platform; the UI is built natively in SwiftUI.
 | ![Record](docs/screenshots/record.png) | ![Ask](docs/screenshots/ask.png) | ![Insights](docs/screenshots/insights.png) | ![Library](docs/screenshots/library.png) | ![Metrics](docs/screenshots/metrics.png) |
 
 *Ask answers questions from your memos via on-device semantic retrieval and
-Apple's foundation model. Insights (summary, action items, topics) are generated
-on device too.*
+Apple's foundation model when available. Insights (summary, action items,
+topics) are generated on device too.*
 
 ### Mac
 
 ![macOS Ask](docs/screenshots/macos.png)
 
-*Ask a question and get an answer drawn from your own memos — retrieved
+*Ask a question and get an answer drawn from your own memos - retrieved
 semantically and cited, generated on device.*
 
 ### Apple Watch
@@ -34,7 +33,7 @@ semantically and cited, generated on device.*
 
 - **Ask your memos (on-device RAG).** Ask a question in plain language; Murmur
   retrieves the most relevant memos by *meaning* (on-device embeddings) and has
-  Apple's foundation model answer grounded in them, with citations — fully
+  Apple's foundation model answer grounded in them, with citations - fully
   private.
 - **Semantic + hybrid search.** Memos are embedded with `NLEmbedding`
   (`NaturalLanguage`) and ranked by cosine similarity, then fused with the FTS5
@@ -42,7 +41,8 @@ semantically and cited, generated on device.*
   and intent.
 - **On-device intelligence (Apple Intelligence).** Per-memo summaries, action
   items, and topics via the `FoundationModels` framework using **guided
-  generation** (`@Generable`) — entirely on device.
+  generation** (`@Generable`) - entirely on device when the framework is
+  available.
 - **On-device capture and transcription.** Audio is recorded with `AVAudioEngine`
   and transcribed with `SFSpeechRecognizer`, preferring on-device recognition so
   speech never has to leave the device.
@@ -60,16 +60,16 @@ semantically and cited, generated on device.*
 - **Encrypted sync.** Memos are encrypted with `CryptoService` (keys held in the
   Keychain) before they reach the Go sync server, which only ever stores
   ciphertext and minimal metadata.
-- **System integration.** App Intents expose recording, search, and action-item
-  creation to Siri and Shortcuts.
+- **System integration.** App Intents expose start/stop recording, search,
+  ask, summarize, extract action items, sync, and delete to Siri and Shortcuts.
 
 ## Architecture
 
 Murmur is split into a platform-agnostic core and thin SwiftUI app targets:
 
 ```
-MurmurCore/      Swift package: audio, transcription, diarization, crypto,
-                 search, sync, store, metrics, and App Intents. No UI.
+MurmurCore/      Swift package: audio, transcription, crypto, search, sync,
+                 store, metrics, and App Intents. No UI.
 MurmurApp/       SwiftUI app for iOS and macOS (shared sources, MVVM).
 MurmurWatchApp/  SwiftUI app for watchOS, focused on quick capture.
 server/          Go sync service storing ciphertext-only memo blobs.
@@ -108,10 +108,11 @@ details in [`docs/PRIVACY.md`](docs/PRIVACY.md).
 
 ## Benchmarks
 
-Host micro-benchmark of the SQLite + FTS5 store (Apple Silicon, release, 2,000
-synthetic memos): **~4,200 memos/sec** insert, search **p50 ~6 ms / p95 ~10 ms**.
-These are host engine numbers (not device numbers) showing local search/indexing
-is not the bottleneck. Reproduce with `swift run -c release MurmurBench`; see
+Host micro-benchmark of the SQLite + FTS5 store (Apple Silicon, release,
+2,000 synthetic memos, 200 queries): **2,805 memos/sec** insert, search **p50
+7.285 ms / p95 18.231 ms**, index size **1.328 MB**. These are host engine
+numbers (not device numbers) showing local search/indexing is not the bottleneck.
+Reproduce with `swift run -c release MurmurBench`; see
 [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md).
 
 ## Build & test

@@ -48,10 +48,10 @@ final class MurmurAppContainer {
         self.memoSyncService = memoSyncService
     }
 
-    static func live() -> MurmurAppContainer {
-        let syncService = Self.liveSyncService()
+    static func live(environment: [String: String] = ProcessInfo.processInfo.environment) -> MurmurAppContainer {
+        let syncService = Self.liveSyncService(environment: environment)
 #if DEBUG
-        let demoMode = ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_MODE"] == "1"
+        let demoMode = environment["MURMUR_UI_DEMO_MODE"] == "1"
 #else
         let demoMode = false
 #endif
@@ -78,15 +78,15 @@ final class MurmurAppContainer {
         )
     }
 
-    private static func liveSyncService() -> MemoSyncService? {
+    static func liveSyncService(environment: [String: String] = ProcessInfo.processInfo.environment) -> MemoSyncService? {
         guard
-            let rawURL = ProcessInfo.processInfo.environment["MURMUR_SYNC_URL"],
+            let rawURL = environment["MURMUR_SYNC_URL"],
             let baseURL = URL(string: rawURL)
         else {
             return nil
         }
 
-        let token = ProcessInfo.processInfo.environment["MURMUR_SYNC_TOKEN"]
+        let token = environment["MURMUR_SYNC_TOKEN"]
         let client = HTTPSyncClient(baseURL: baseURL, token: token)
         return MemoSyncService(client: client, secretStore: KeychainStore())
     }
