@@ -27,4 +27,8 @@ public final class MemoStore {
     public func removeAll() {
         memos.removeAll()
     }
+
+    public func metrics(calendar: Calendar = .current) -> MemoMetrics {
+        MemoMetrics.calculate(from: memos, calendar: calendar)
+    }
 }

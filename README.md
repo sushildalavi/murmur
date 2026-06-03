@@ -10,8 +10,14 @@ Murmur records voice memos, transcribes speech locally, generates summaries and 
 - On-device speech transcription
 - Local summaries and action items when available
 - Encrypted searchable memo storage
+- Privacy-safe local usage metrics
 - Apple Watch support and App Intents integration
 - Ciphertext-only sync for future backend infrastructure
+
+## Screenshots
+| Record | Library | Metrics |
+| --- | --- | --- |
+| ![Record screen](docs/screenshots/record.png) | ![Library screen](docs/screenshots/library.png) | ![Metrics screen](docs/screenshots/metrics.png) |
 
 ## Architecture
 - Client apps run on Apple platforms and keep plaintext processing local.
@@ -29,7 +35,7 @@ Swift 6, SwiftUI, SwiftData, SpeechAnalyzer, Foundation Models, CryptoKit, App I
 - Phase 4 — encrypted sync backend.
 
 ## Current Status
-Feature-complete foundation — iPhone, Mac, Watch, App Intents, local encryption, and ciphertext-only sync are implemented and validated.
+Feature-complete foundation — iPhone, Mac, Watch, App Intents, local encryption, ciphertext-only sync, and local metrics are implemented and validated.
 
 ## Privacy Model
 Raw audio, transcripts, summaries, and action items never leave the device in plaintext.

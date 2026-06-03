@@ -159,6 +159,42 @@ final class MurmurCoreTests: XCTestCase {
         XCTAssertEqual(restored.first?.title, memo.title)
         XCTAssertEqual(restored.first?.transcriptText, memo.transcriptText)
     }
+
+    func testMemoMetricsAggregateLocalData() {
+        let calendar = Calendar(identifier: .gregorian)
+        let firstDate = calendar.date(from: DateComponents(year: 2026, month: 6, day: 1))!
+        let secondDate = calendar.date(from: DateComponents(year: 2026, month: 6, day: 2))!
+
+        let memos = [
+            Memo(
+                title: "Daily standup",
+                audioFileURL: URL(fileURLWithPath: "/tmp/daily.m4a"),
+                createdAt: firstDate,
+                updatedAt: firstDate,
+                transcriptSegments: [
+                    TranscriptSegment(text: "Ship the metrics dashboard", startTime: 0, endTime: 1),
+                    TranscriptSegment(text: "Validate screenshots", startTime: 1, endTime: 2)
+                ]
+            ),
+            Memo(
+                title: "Follow up",
+                audioFileURL: URL(fileURLWithPath: "/tmp/followup.m4a"),
+                createdAt: secondDate,
+                updatedAt: secondDate,
+                transcriptSegments: [
+                    TranscriptSegment(text: "Review sync flow", startTime: 0, endTime: 1)
+                ]
+            )
+        ]
+
+        let metrics = MemoMetrics.calculate(from: memos, calendar: calendar)
+
+        XCTAssertEqual(metrics.totalMemos, 2)
+        XCTAssertEqual(metrics.totalTranscriptSegments, 3)
+        XCTAssertEqual(metrics.totalWords, 9)
+        XCTAssertEqual(metrics.latestMemoDate, secondDate)
+        XCTAssertEqual(metrics.memoDaysActive, 2)
+    }
 }
 
 final class MockURLProtocol: URLProtocol {

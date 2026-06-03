@@ -12,6 +12,7 @@
 		140BAA03E5B2403107EB5737 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */; };
 		1D9119B478D46C060A3DF8D2 /* MurmurAppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF623630B8C68E5B94934CD3 /* MurmurAppContainer.swift */; };
 		2C1EF22FC36AD37D3E16B0CD /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C902387A51467AF25659AD /* SettingsViewModel.swift */; };
+		2D13835FE68090820F1C864C /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2DC2862647AF85214F9DBC /* MetricsView.swift */; };
 		33FB02F379AEEB5188049C3F /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */; };
 		35793F9E73FEE42CBA07CE05 /* MemoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */; };
 		3E25AEA89EA25B2AA80D956A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04B533583435F36A71BD564 /* ContentView.swift */; };
@@ -20,12 +21,15 @@
 		4DEFBA8E90786BBE77BC4832 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5B96FF77F1E12DF43EA870 /* WatchContentView.swift */; };
 		53468F36BDB25BEC8DF92DE3 /* MemoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A42EA4B53CAC26535EABE33 /* MemoDetailViewModel.swift */; };
 		607B853B21C65543C66E2A7E /* MurmurWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE8163843E13A23940D750A /* MurmurWatchApp.swift */; };
+		679061F06190BF2304899C8B /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */; };
 		6A6B853CFD784D1CF612D9B2 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8860C3B7E2B4430E40B466 /* RecordViewModel.swift */; };
 		6B25D11EE38378FAD026AD79 /* MurmurWatchAppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B7DA28A67A2BCE51EB15CE /* MurmurWatchAppContainer.swift */; };
 		73001460BEF575C3E59F2B8B /* WatchRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA6C62328130175E08DF688 /* WatchRecordViewModel.swift */; };
+		76D83C678983DB207008EBD1 /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */; };
 		80AAB307D71CDCD739566396 /* MurmurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C08D9972D05BB1E2E2BDB5 /* MurmurApp.swift */; };
 		84AED457318C8F03917C457C /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C902387A51467AF25659AD /* SettingsViewModel.swift */; };
 		8B82BF3D3DA06DB77BF0D15F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04B533583435F36A71BD564 /* ContentView.swift */; };
+		8F6D50D310726A352D6A3F91 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2DC2862647AF85214F9DBC /* MetricsView.swift */; };
 		9472E97A0B516F7CAD0E42C2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6569A03201E55B3C43CFDCCD /* SearchView.swift */; };
 		951856CF006ED8AFE68455D4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B3D5559233A008E7082C0 /* SettingsView.swift */; };
 		9CD5202C1897F850F44B1590 /* RecordViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB98571331852FE752AB008 /* RecordViewModelTests.swift */; };
@@ -55,6 +59,7 @@
 /* Begin PBXFileReference section */
 		20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailView.swift; sourceTree = "<group>"; };
 		21FCC67C11308734C9D07EAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsViewModel.swift; sourceTree = "<group>"; };
 		3F9E52D049C3EF4D4D6601C7 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		43C902387A51467AF25659AD /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45423DCA14B009E95F3852A2 /* Murmur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Murmur.entitlements; sourceTree = "<group>"; };
@@ -76,6 +81,7 @@
 		D797731523833060E440A97A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DA5B96FF77F1E12DF43EA870 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
 		DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
+		DF2DC2862647AF85214F9DBC /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
 		E7B7DA28A67A2BCE51EB15CE /* MurmurWatchAppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurWatchAppContainer.swift; sourceTree = "<group>"; };
 		FAB98571331852FE752AB008 /* RecordViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModelTests.swift; sourceTree = "<group>"; };
 		FF623630B8C68E5B94934CD3 /* MurmurAppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurmurAppContainer.swift; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 			children = (
 				3F9E52D049C3EF4D4D6601C7 /* LibraryViewModel.swift */,
 				9A42EA4B53CAC26535EABE33 /* MemoDetailViewModel.swift */,
+				258B363DEE7BC78427A9CCCD /* MetricsViewModel.swift */,
 				8C8860C3B7E2B4430E40B466 /* RecordViewModel.swift */,
 				43C902387A51467AF25659AD /* SettingsViewModel.swift */,
 			);
@@ -218,6 +225,7 @@
 				B04B533583435F36A71BD564 /* ContentView.swift */,
 				A7366F5465FB302E8FD9F1EF /* LibraryView.swift */,
 				20D61F7DACC09C3A205AAC46 /* MemoDetailView.swift */,
+				DF2DC2862647AF85214F9DBC /* MetricsView.swift */,
 				DCD3CDB52A9B7A2D8DB2FA93 /* RecordView.swift */,
 				6569A03201E55B3C43CFDCCD /* SearchView.swift */,
 				5B3B3D5559233A008E7082C0 /* SettingsView.swift */,
@@ -414,6 +422,8 @@
 				EC235BDE2C2DF0B661F52F46 /* LibraryViewModel.swift in Sources */,
 				35793F9E73FEE42CBA07CE05 /* MemoDetailView.swift in Sources */,
 				0555186C883679E9B4A4778A /* MemoDetailViewModel.swift in Sources */,
+				2D13835FE68090820F1C864C /* MetricsView.swift in Sources */,
+				679061F06190BF2304899C8B /* MetricsViewModel.swift in Sources */,
 				80AAB307D71CDCD739566396 /* MurmurApp.swift in Sources */,
 				1D9119B478D46C060A3DF8D2 /* MurmurAppContainer.swift in Sources */,
 				140BAA03E5B2403107EB5737 /* RecordView.swift in Sources */,
@@ -433,6 +443,8 @@
 				B05235AD1344BFD16297A438 /* LibraryViewModel.swift in Sources */,
 				C7CEF47E5194C0920F616AB5 /* MemoDetailView.swift in Sources */,
 				53468F36BDB25BEC8DF92DE3 /* MemoDetailViewModel.swift in Sources */,
+				8F6D50D310726A352D6A3F91 /* MetricsView.swift in Sources */,
+				76D83C678983DB207008EBD1 /* MetricsViewModel.swift in Sources */,
 				FF83D5D06A3464026220837E /* MurmurApp.swift in Sources */,
 				C5EFE4E18FD67302DC14D0DB /* MurmurAppContainer.swift in Sources */,
 				33FB02F379AEEB5188049C3F /* RecordView.swift in Sources */,
