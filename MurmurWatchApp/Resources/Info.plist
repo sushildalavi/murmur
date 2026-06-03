@@ -24,7 +24,9 @@
 	<string>Murmur needs microphone access to record private voice memos locally.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Murmur needs speech recognition to transcribe voice memos locally on device.</string>
-	<key>WKWatchKitApp</key>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKWatchOnly</key>
 	<true/>
 </dict>
 </plist>
