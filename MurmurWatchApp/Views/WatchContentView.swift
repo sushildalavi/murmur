@@ -4,6 +4,7 @@ import MurmurCore
 @MainActor
 struct WatchContentView: View {
     @State private var container: MurmurWatchAppContainer
+    @State private var didStartDemo = false
 
     init(container: MurmurWatchAppContainer) {
         _container = State(initialValue: container)
@@ -23,6 +24,14 @@ struct WatchContentView: View {
             .padding(.vertical, 4)
         }
         .navigationTitle("Murmur")
+        .task {
+#if DEBUG
+            guard !didStartDemo,
+                  ProcessInfo.processInfo.environment["MURMUR_UI_DEMO_RECORDING"] == "1" else { return }
+            didStartDemo = true
+            await recorder.startRecording()
+#endif
+        }
     }
 
     private var timer: some View {
