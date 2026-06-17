@@ -63,6 +63,9 @@ pnpm-debug.log*
 .tmp/
 tmp/
 
+# Claude / IDE
+.claude/
+
 # Secrets / keys / certificates
 *.pem
 *.key
