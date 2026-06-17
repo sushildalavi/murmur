@@ -1,11 +1,5 @@
 # Murmur
 
-A local-first voice memo app for iPhone, Mac, and Apple Watch. Murmur records
-and transcribes spoken notes on device, then uses **Apple Intelligence** when
-available plus **on-device semantic search** to summarize them, pull out action
-items, answer questions about your own memos, and sync encrypted backups. One
-shared Swift core powers every platform; the UI is built natively in SwiftUI.
-
 ## Screenshots
 
 ### iPhone
